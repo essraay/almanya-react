@@ -14,7 +14,7 @@ const DetailApplicationPage = () => {
   useEffect(() => {
     ApplicationFormService.getById(id)
       .then((res) => {
-        console.log(items)
+        // console.log(items)
         setItems(res.data)
       })
       .finally(() => {
@@ -28,67 +28,67 @@ const DetailApplicationPage = () => {
         <b>Başvuru Bilgileri</b>
       </CListGroupItem>
       <CListGroupItem>
-        <b>Adı: </b>{items.name}
+        <b>Adı: </b>{items?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Soyadı: </b>{items.surname}
+        <b>Soyadı: </b>{items?.surname}
       </CListGroupItem>
       <CListGroupItem>
-        <b>TC : </b>{items.tc}
+        <b>TC : </b>{items?.tc}
       </CListGroupItem>
       <CListGroupItem>
         <b>Doğum Yeri : </b>{items?.birthPlace}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Doğum Tarihi: </b>{items.birthday}
+        <b>Doğum Tarihi: </b>{items?.birthday}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Adres: </b>{items.adress}
+        <b>Adres: </b>{items?.adress}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Telefon : </b>{items.phone}
+        <b>Telefon : </b>{items?.phone}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Email : </b>{items.email}
+        <b>Email : </b>{items?.email}
       </CListGroupItem>
       <CListGroupItem>
-        <b>İl : </b>{items.provinces.name}
+        <b>İl : </b>{items?.provinces?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>İlçe : </b> {items.district.name}
+        <b>İlçe : </b> {items?.district?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Uyruk : </b> {items.nationality.name}
+        <b>Uyruk : </b> {items?.nationality?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Çifte Vatandaşlık : </b> {items.dualNationality ? 'Var' : 'Yok'}
+        <b>Çifte Vatandaşlık : </b> {items?.dualNationality ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Cinsiyet : </b> {items.gender.name}
+        <b>Cinsiyet : </b> {items?.gender?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Yaş Aralığı : </b> {items.ageRange.range}
+        <b>Yaş Aralığı : </b> {items?.ageRange?.range}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Mezuniyet Durumu : </b> {items.graduation.name}
+        <b>Mezuniyet Durumu : </b> {items?.graduation?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Almanca Dil Seviyesi Durumu: </b> {items.germanLevel.level}
+        <b>Almanca Dil Seviyesi Durumu: </b> {items?.germanLevel?.level}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Diğer Yabancı Dil: </b> {items.otherLanguage.name}
+        <b>Diğer Yabancı Dil: </b> {items?.otherLanguage?.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Ehliyet : </b> {items.drivingLicense ? 'Var' : 'Yok'}
+        <b>Ehliyet : </b> {items?.drivingLicense ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Pasaport : </b>{items.passport ? 'Var' : 'Yok'}
+        <b>Pasaport : </b>{items?.passport ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Boy : </b> {items.length}
+        <b>Boy : </b> {items?.length}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Kilonuz : </b> {items.weight}
+        <b>Kilonuz : </b> {items?.weight}
       </CListGroupItem>
     </CListGroup>
 
@@ -99,16 +99,16 @@ const DetailApplicationPage = () => {
         <b>Acil Durumda İrtibata Geçilecek Kişi</b>
         </CListGroupItem>
       <CListGroupItem>
-        <b>Adı Soyadı : </b> {items.emergencyPersonFullName}
+        <b>Adı Soyadı : </b> {items?.emergencyPersonFullName}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Cep Telefonu : </b> {items.emergencyPersonPhone}
+        <b>Cep Telefonu : </b> {items?.emergencyPersonPhone}
       </CListGroupItem>
       <CListGroupItem>
-        <b>E-Posta Adresi : </b> {items.emergencyPersonEmail}
+        <b>E-Posta Adresi : </b> {items?.emergencyPersonEmail}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Yakınlık Derecesi : </b> {items.emergencyPersonDegreeOfProximity}
+        <b>Yakınlık Derecesi : </b> {items?.emergencyPersonDegreeOfProximity}
       </CListGroupItem>
     </CListGroup>
     <br />
