@@ -1,0 +1,126 @@
+// Here you can add other styles
+
+.header-logo {
+  padding: 2%;
+  max-height: 150px;
+  margin-bottom: 14%;
+  margin-top: 14%;
+}
+
+.avatar-img {
+  border-radius: 0px;
+}
+
+.home-icon {
+  margin: auto;
+  float: left;
+  margin-right: 2%;
+  width: 3rem !important;
+  height: 3rem !important;
+  font-size: 1rem !important;
+}
+
+.setting-button {
+  transform-box: fill-box;
+  transition: transform 0.3s ease-out;
+}
+
+.setting-button:hover {
+  transform: rotate(90deg);
+}
+
+.personal-info-bg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.personal-icon {
+  margin: auto;
+  float: left;
+  margin-right: 2%;
+  width: 2rem !important;
+  height: 2rem !important;
+  font-size: 1rem !important;
+}
+
+.personal-text {
+  margin-top: 0.5%;
+  font-size: 1.05rem;
+}
+
+.update-btn {
+  font-size: 1.1rem;
+  margin: 1%;
+  background-color: #3c4b64;
+  color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07),
+    0 32px 64px rgba(0, 0, 0, 0.07);
+  border: none;
+}
+
+.info-card {
+  max-width: 36rem;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.align-detail {
+  margin: 0 auto !important;
+}
+
+.card-out {
+  margin: auto;
+  width: 100vh;
+}
+
+.check-icon {
+  background-color: #44cc04;
+  border-radius: 50%;
+  color: white;
+  padding: 1%;
+  font-weight: 800;
+}
+
+.x-icon {
+  background-color: #ff0000;
+  border-radius: 50%;
+  color: white;
+  padding: 2%;
+}
+
+.warning-icon {
+  color: rgb(255, 0, 0);
+  font-weight: 800;
+}
+
+.app-check {
+  color: #44cc04;
+  transition: ease 0.3s;
+}
+
+.app-check:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: #44cc04;
+  padding: 12%;
+}
+
+.app-decline {
+  color: red;
+  transition: ease 0.3s;
+}
+
+.app-decline:hover {
+  border-radius: 50%;
+  color: white;
+  background-color: red;
+  padding: 12%;
+}
+
+.labelweight {
+  display: block;
+  width: 500px;
+}

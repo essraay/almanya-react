@@ -1,0 +1,33 @@
+import Yup from './validation'
+
+export const ApplicationFormSchema = Yup.object().shape({
+  tc: Yup.string().required(),
+  name: Yup.string().required(),
+  surname: Yup.string().required(),
+  birthday: Yup.date().required(),
+  birthPlace: Yup.string().required(),
+  adress: Yup.string().required(),
+  provincesId: Yup.string().required(),
+  districtId: Yup.string().required(),
+  nationalityId: Yup.string().oneOf(['1', '2', '3']).required(),
+  dualNationality: Yup.bool().required(),
+  genderId: Yup.string().oneOf(['1', '2']).required(),
+  ageRangeId: Yup.string().oneOf(['1', '2', '3']).required(),
+  phone: Yup.string().required(),
+  email: Yup.string().required(),
+  graduationId: Yup.string().oneOf(['1', '2', '3', '4', '5', '6', '7']).required(),
+  germanLevelId: Yup.string().oneOf(['1', '2', '3', '4', '5', '6']).required(),
+  otherLanguageId: Yup.array().of(Yup.string()),
+  drivingLicense: Yup.bool().required(),
+  passport: Yup.bool().required(),
+  length: Yup.string().required(),
+  weight: Yup.string().required(),
+  disabilityStatus: Yup.string(),
+  chronicDisease: Yup.string(),
+  //   category: Yup.boolean().required(),
+  emergencyPersonFullName: Yup.string().required(),
+  emergencyPersonPhone: Yup.string().required(),
+  emergencyPersonEmail: Yup.string().required(),
+  emergencyPersonDegreeOfProximity: Yup.string().required(),
+})
+
