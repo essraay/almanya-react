@@ -3,7 +3,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../../components/LoadingSpinner'
-import { ApplicationFormService, CategoryService } from '../../services'
+import { ApplicationFormService } from '../../services'
 
 const DetailApplicationPage = () => {
 
@@ -12,8 +12,9 @@ const DetailApplicationPage = () => {
   const [items, setItems] = useState(false)
 
   useEffect(() => {
-    CategoryService.getById(id)
+    ApplicationFormService.getById(id)
       .then((res) => {
+        console.log(items)
         setItems(res.data)
       })
       .finally(() => {
@@ -21,49 +22,106 @@ const DetailApplicationPage = () => {
       })
   }, [])
 
-  const userArea = (
-    <>
-      <CListGroup>
-        <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Başvuru Bilgileri</CListGroupItem>
-        <CListGroupItem>Adı: {items.applicationForms.name} </CListGroupItem>
-        <CListGroupItem>Soyadı: {items.applicationForms.surname} </CListGroupItem>
-        <CListGroupItem>TC : {items.applicationForms.tc} </CListGroupItem>
-        <CListGroupItem>Doğum Yeri : {items?.applicationForms.birthPlace}</CListGroupItem>
-        <CListGroupItem>Doğum Tarihi: {items.applicationForms.birthday} </CListGroupItem>
-        <CListGroupItem>Adres: {items.applicationForms.adress} </CListGroupItem>
-        <CListGroupItem>Telefon : {items.applicationForms.phone} </CListGroupItem>
-        <CListGroupItem>Email : {items.applicationForms.email} </CListGroupItem>
-        <CListGroupItem>İl : {items.provinces.name} </CListGroupItem>
-        <CListGroupItem>İlçe : {items.district.name} </CListGroupItem>
-        <CListGroupItem>Uyruk : {items.nationality.name} </CListGroupItem>
-        <CListGroupItem>Çifte Vatandaşlık : {items.applicationForms.dualNationality} </CListGroupItem>
-        <CListGroupItem>Cinsiyet : {items.gender.name} </CListGroupItem>
-        <CListGroupItem>Yaş Aralığı : {items.ageRange.range} </CListGroupItem>
-        <CListGroupItem>Mezuniyet Durumu : {items.applicationForms.provinces} </CListGroupItem>
-        <CListGroupItem>Almanca Dil Seviyesi Durumu: {items.applicationForms.provinces} </CListGroupItem>
-        <CListGroupItem>Diğer Yabancı Dil: {items.applicationForms.provinces} </CListGroupItem>
-        <CListGroupItem>Ehliyet : {items.applicationForms.provinces} </CListGroupItem>
-        <CListGroupItem>Pasaport : {items.applicationForms.provinces} </CListGroupItem>
-        <CListGroupItem>Boy : {items.applicationForms?.provinces} </CListGroupItem>
-        <CListGroupItem>Kilonuz : {items.applicationForms?.provinces} </CListGroupItem>
-      </CListGroup>
-      <br />
-      <CListGroup>
-        <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Acil Durumda İrtibata Geçilecek Kişi</CListGroupItem>
-        <CListGroupItem>Adı Soyadı : {items.applicationForms?.provinces} </CListGroupItem>
-        <CListGroupItem>Cep Telefonu : {items.applicationForms?.provinces} </CListGroupItem>
-        <CListGroupItem>E-Posta Adresi : {items.applicationForms?.provinces} </CListGroupItem>
-        <CListGroupItem>Yakınlık Derecesi : {items.applicationForms?.provinces} </CListGroupItem>
-      </CListGroup>
-      <br />
-      <CListGroup>
-        <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Başvuru Dosyaları</CListGroupItem>
-        <CListGroupItem>Başvuru Formu : <a href="#">İndir</a></CListGroupItem>
-        <CListGroupItem>CV : <a href="#">İndir</a></CListGroupItem>
-        <CListGroupItem>Ek Belge  : <a href="#">İndir</a></CListGroupItem>
-      </CListGroup>
-    </>
-  )
+  const userArea = items && <>
+    <CListGroup>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}><b>Başvuru Bilgileri</b></CListGroupItem>
+      <CListGroupItem>
+        <b>Adı: </b>{items.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Soyadı: </b>{items.surname}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>TC : </b>{items.tc}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Doğum Yeri : </b>{items?.birthPlace}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Doğum Tarihi: </b>{items.birthday}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Adres: </b>{items.adress}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Telefon : </b>{items.phone}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Email : </b>{items.email}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>İl : </b>{items.provinces.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>İlçe : </b> {items.district.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Uyruk : </b> {items.nationality.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Çifte Vatandaşlık : </b> {items.dualNationality ? 'Var' : 'Yok'}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Cinsiyet : </b> {items.gender.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Yaş Aralığı : </b> {items.ageRange.range}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Mezuniyet Durumu : </b> {items.graduation.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Almanca Dil Seviyesi Durumu: </b> {items.germanLevel.level}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Diğer Yabancı Dil: </b> {items.otherLanguage.name}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Ehliyet : </b> {items.drivingLicense ? 'Var' : 'Yok'}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Pasaport : </b>{items.passport ? 'Var' : 'Yok'}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Boy : </b> {items.length}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Kilonuz : </b> {items.weight}
+      </CListGroupItem>
+    </CListGroup>
+    <br />
+    <CListGroup>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Acil Durumda İrtibata Geçilecek Kişi</CListGroupItem>
+      <CListGroupItem>
+        <b>Adı Soyadı : </b> {items.emergencyPersonFullName}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Cep Telefonu : </b> {items.emergencyPersonPhone}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>E-Posta Adresi : </b> {items.emergencyPersonEmail}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Yakınlık Derecesi : </b> {items.emergencyPersonDegreeOfProximity}
+      </CListGroupItem>
+    </CListGroup>
+    <br />
+    <CListGroup>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Başvuru Dosyaları</CListGroupItem>
+      <CListGroupItem>
+        <b>Başvuru Formu : </b>
+        <a href="#">İndir</a>
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>CV : </b>
+        <a href="#">İndir</a>
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Ek Belge  : </b>
+        <a href="#">İndir</a>
+      </CListGroupItem>
+    </CListGroup>
+  </>
 
   return (
     <CContainer>

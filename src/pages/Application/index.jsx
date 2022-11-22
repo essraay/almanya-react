@@ -27,10 +27,10 @@ const Basvuru = () => {
                     Tüm Başvurular
                   </b>
                 </p>
-                <CCardFooter className="text-medium-emphasis">
+                {/* <CCardFooter className="text-medium-emphasis">
                   <p>1211 başvuru</p>
-                </CCardFooter>
-                <br />
+                </CCardFooter> */}
+                {/* <br /> */}
                 <CButton href={getPath('applications.allapplications')} color="danger" variant="outline">
                   Başvuruları Görüntüle
                 </CButton>
@@ -47,10 +47,10 @@ const Basvuru = () => {
                       {item.categoryName} Başvuruları
                     </b>
                   </p>
-                  <CCardFooter className="text-medium-emphasis">
+                  {/* <CCardFooter className="text-medium-emphasis">
                     <p>11 başvuru</p>
-                  </CCardFooter>
-                  <br />
+                  </CCardFooter> */}
+                  {/* <br /> */}
                   <CButton href={getPath('applications.list', { id: item.id })} color="info" variant="outline">
                     Başvuruları Görüntüle
                   </CButton>

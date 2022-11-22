@@ -69,11 +69,11 @@ const ListApplicationPage = () => {
       label: 'Telefon Numarası',
       _props: { scope: 'col' },
     },
-    // {
-    //   key: 'buttons',
-    //   label: '',
-    //   _props: { scope: 'col' },
-    // },
+    {
+      key: 'buttons',
+      label: '',
+      _props: { scope: 'col' },
+    },
   ]
 
   // { category: id }
@@ -81,7 +81,7 @@ const ListApplicationPage = () => {
   useEffect(() => {
     CategoryService.getById(id)
       .then((res) => {
-        console.log('res.data.applicationForms :>> ', res.data);
+        // console.log('res.data.applicationForms :>> ', res.data);
         const newItems = res.data.applicationForms.map((item) => ({
           id: item.id,
           tc: `${item.tc} `,
@@ -93,18 +93,18 @@ const ListApplicationPage = () => {
           nationality: `${item.nationality.name} `,
           provinces: `${item.provinces.name} `,
           phone: `${item.phone} `,
-          // buttons: (
-          //   <CButtonGroup>
-          //     <div className="d-flex gap-2">
-          //       <Link
-          //         href={getPath('applications.detail')}
-          //         className="btn btn-primary btn-sm"
-          //       >
-          //         Detay
-          //       </Link>
-          //     </div>
-          //   </CButtonGroup>
-          // ),
+          buttons: (
+            <CButtonGroup>
+              <div className="d-flex gap-2">
+                <Link
+                  to={getPath('applications.detail', { id: item.id } )}
+                  className="btn btn-primary btn-sm"
+                >
+                  Detay
+                </Link>
+              </div>
+            </CButtonGroup>
+          ),
           _cellProps: { id: { scope: 'row' }, keyCode: { style: { width: '100%' } } },
         }))
         setItems(newItems)
@@ -116,7 +116,7 @@ const ListApplicationPage = () => {
     <>
       <CContainer>
         <CRow>
-          <CCard className='mx-auto my-3 col-xl-10 shadow'>
+          <CCard className='mx-auto my-3 col-xl-12 shadow'>
             <CCardBody>
               {!loading ? (
                 <CTable
