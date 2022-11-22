@@ -24,7 +24,9 @@ const DetailApplicationPage = () => {
 
   const userArea = items && <>
     <CListGroup>
-      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}><b>Başvuru Bilgileri</b></CListGroupItem>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>
+        <b>Başvuru Bilgileri</b>
+      </CListGroupItem>
       <CListGroupItem>
         <b>Adı: </b>{items.name}
       </CListGroupItem>
@@ -89,9 +91,13 @@ const DetailApplicationPage = () => {
         <b>Kilonuz : </b> {items.weight}
       </CListGroupItem>
     </CListGroup>
+
     <br />
+
     <CListGroup>
-      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Acil Durumda İrtibata Geçilecek Kişi</CListGroupItem>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>
+        <b>Acil Durumda İrtibata Geçilecek Kişi</b>
+        </CListGroupItem>
       <CListGroupItem>
         <b>Adı Soyadı : </b> {items.emergencyPersonFullName}
       </CListGroupItem>
@@ -107,7 +113,9 @@ const DetailApplicationPage = () => {
     </CListGroup>
     <br />
     <CListGroup>
-      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Başvuru Dosyaları</CListGroupItem>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A', fontWeight:'bold'}}>
+        Başvuru Dosyaları
+        </CListGroupItem>
       <CListGroupItem>
         <b>Başvuru Formu : </b>
         <a href="#">İndir</a>

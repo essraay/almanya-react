@@ -28,7 +28,7 @@ const Header = () => {
             <h5
               style={{ color: 'white' }}
             >
-              ENPERSONAL
+              EN Personal
             </h5>
           </div>
 

@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
-                        2022 &copy; Uplon theme by <a href="">Kobizon</a>
+                        © <a href="">Kobizon</a> 2022
                     </div>
                 </div>
             </div>
