@@ -3,18 +3,18 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../../components/LoadingSpinner'
-import { ApplicationFormService } from '../../services'
+import { ApplicationFormService, CategoryService } from '../../services'
 
 const DetailApplicationPage = () => {
 
   const { id } = useParams()
   const [loading, setLoading] = useState(true)
-  const [appDetail, setAppDetail] = useState(false)
+  const [items, setItems] = useState(false)
 
   useEffect(() => {
-    ApplicationFormService.getAll()
+    CategoryService.getById(id)
       .then((res) => {
-        setAppDetail(res.data)
+        setItems(res.data)
       })
       .finally(() => {
         setLoading(false)
@@ -25,43 +25,42 @@ const DetailApplicationPage = () => {
     <>
       <CListGroup>
         <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Başvuru Bilgileri</CListGroupItem>
-        <CListGroupItem>Adı: {appDetail.name} </CListGroupItem>
-        <CListGroupItem>Soyadı: {appDetail.surname} </CListGroupItem>
-        <CListGroupItem>TC : {appDetail.tc} </CListGroupItem>
-        <CListGroupItem>Doğum Yeri : {appDetail?.birthPlace}</CListGroupItem>
-        <CListGroupItem>Doğum Tarihi: {appDetail.birthday} </CListGroupItem>
-        <CListGroupItem>Adres: {appDetail.adress} </CListGroupItem>
-        <CListGroupItem>Telefon : {appDetail.applicationName} </CListGroupItem>
-        <CListGroupItem>Email : {appDetail.name} </CListGroupItem>
-        <CListGroupItem>İl : {appDetail.applicationName} </CListGroupItem>
-        <CListGroupItem>İlçe : {appDetail.name} </CListGroupItem>
-        <CListGroupItem>Uyruk : {appDetail.surname} </CListGroupItem>
-        <CListGroupItem>Çifte Vatandaşlık : {appDetail.applicationName} </CListGroupItem>
-        <CListGroupItem>Cinsiyet : {appDetail.name} </CListGroupItem>
-        <CListGroupItem>Yaş Aralığı : {appDetail.surname} </CListGroupItem>
-        <CListGroupItem>Mezuniyet Durumu : {appDetail.applicationName} </CListGroupItem>
-        <CListGroupItem>Almanca Dil Seviyesi Durumu: {appDetail.name} </CListGroupItem>
-        <CListGroupItem>Diğer Yabancı Dil: {appDetail.surname} </CListGroupItem>
-        <CListGroupItem>Ehliyet : {appDetail.applicationName} </CListGroupItem>
-        <CListGroupItem>Pasaport : {appDetail.name} </CListGroupItem>
-        <CListGroupItem>Boy : {appDetail.name} </CListGroupItem>
-        <CListGroupItem>Kilonuz : {appDetail.surname} </CListGroupItem>
+        <CListGroupItem>Adı: {items.applicationForms.name} </CListGroupItem>
+        <CListGroupItem>Soyadı: {items.applicationForms.surname} </CListGroupItem>
+        <CListGroupItem>TC : {items.applicationForms.tc} </CListGroupItem>
+        <CListGroupItem>Doğum Yeri : {items?.applicationForms.birthPlace}</CListGroupItem>
+        <CListGroupItem>Doğum Tarihi: {items.applicationForms.birthday} </CListGroupItem>
+        <CListGroupItem>Adres: {items.applicationForms.adress} </CListGroupItem>
+        <CListGroupItem>Telefon : {items.applicationForms.phone} </CListGroupItem>
+        <CListGroupItem>Email : {items.applicationForms.email} </CListGroupItem>
+        <CListGroupItem>İl : {items.provinces.name} </CListGroupItem>
+        <CListGroupItem>İlçe : {items.district.name} </CListGroupItem>
+        <CListGroupItem>Uyruk : {items.nationality.name} </CListGroupItem>
+        <CListGroupItem>Çifte Vatandaşlık : {items.applicationForms.dualNationality} </CListGroupItem>
+        <CListGroupItem>Cinsiyet : {items.gender.name} </CListGroupItem>
+        <CListGroupItem>Yaş Aralığı : {items.ageRange.range} </CListGroupItem>
+        <CListGroupItem>Mezuniyet Durumu : {items.applicationForms.provinces} </CListGroupItem>
+        <CListGroupItem>Almanca Dil Seviyesi Durumu: {items.applicationForms.provinces} </CListGroupItem>
+        <CListGroupItem>Diğer Yabancı Dil: {items.applicationForms.provinces} </CListGroupItem>
+        <CListGroupItem>Ehliyet : {items.applicationForms.provinces} </CListGroupItem>
+        <CListGroupItem>Pasaport : {items.applicationForms.provinces} </CListGroupItem>
+        <CListGroupItem>Boy : {items.applicationForms?.provinces} </CListGroupItem>
+        <CListGroupItem>Kilonuz : {items.applicationForms?.provinces} </CListGroupItem>
       </CListGroup>
       <br />
       <CListGroup>
         <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Acil Durumda İrtibata Geçilecek Kişi</CListGroupItem>
-        <CListGroupItem>Adı Soyadı : {appDetail?.principalInvestigator?.fullName} </CListGroupItem>
-        <CListGroupItem>Cep Telefonu : {appDetail?.principalInvestigator?.phone} </CListGroupItem>
-        <CListGroupItem>E-Posta Adresi : {appDetail?.principalInvestigator?.eposta} </CListGroupItem>
-        <CListGroupItem>Yakınlık Derecesi : {appDetail?.principalInvestigator?.address} </CListGroupItem>
+        <CListGroupItem>Adı Soyadı : {items.applicationForms?.provinces} </CListGroupItem>
+        <CListGroupItem>Cep Telefonu : {items.applicationForms?.provinces} </CListGroupItem>
+        <CListGroupItem>E-Posta Adresi : {items.applicationForms?.provinces} </CListGroupItem>
+        <CListGroupItem>Yakınlık Derecesi : {items.applicationForms?.provinces} </CListGroupItem>
       </CListGroup>
       <br />
       <CListGroup>
         <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>Başvuru Dosyaları</CListGroupItem>
         <CListGroupItem>Başvuru Formu : <a href="#">İndir</a></CListGroupItem>
         <CListGroupItem>CV : <a href="#">İndir</a></CListGroupItem>
-        <CListGroupItem>Taahhütname  : <a href="#">İndir</a></CListGroupItem>
-        <CListGroupItem>Ek Belgeler : <a href="#">İndir</a></CListGroupItem>
+        <CListGroupItem>Ek Belge  : <a href="#">İndir</a></CListGroupItem>
       </CListGroup>
     </>
   )
@@ -70,7 +69,7 @@ const DetailApplicationPage = () => {
     <CContainer>
       <CRow>
         <CCard className="mx-auto my-3 col-xl-10 shadow">
-          <CCardBody>{!loading ? appDetail && userArea : <LoadingSpinner />}</CCardBody>
+          <CCardBody>{!loading ? items && userArea : <LoadingSpinner />}</CCardBody>
         </CCard>
       </CRow>
     </CContainer>
