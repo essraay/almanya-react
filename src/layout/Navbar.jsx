@@ -28,18 +28,26 @@ const Navbar = () => {
           <CCollapse
             className="navbar-collapse justify-content-center"
           >
+            <a class="navbar-toggle nav-link">
+              <div class="lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </a>
+
             <CNavbarNav className='gap-5'>
               {user && <><CNavItem>
-                <CNavLink href={getPath('homepage')} active>
+                <CNavLink className='col-md-4' href={getPath('homepage')} active>
                   <h6 style={{ color: '#13004D' }}>Anasayfa</h6>
                 </CNavLink>
               </CNavItem>
-                <CNavItem>
+                <CNavItem className='col-md-4'>
                   <CNavLink href={getPath('applications')}>
                     <h6>Başvurular</h6>
                   </CNavLink>
                 </CNavItem></>}
-              <CNavItem>
+              <CNavItem className='col-md-4'>
                 <CNavLink href={getPath('forms')}>
                   <h6>Formlar</h6>
                 </CNavLink>

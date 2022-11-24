@@ -28,28 +28,28 @@ const DetailApplicationPage = () => {
         <b>Başvuru Bilgileri</b>
       </CListGroupItem>
       <CListGroupItem>
-        <b>Adı: </b>{items?.name}
+        <b>Adı: </b>{items.name}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Soyadı: </b>{items?.surname}
+        <b>Soyadı: </b>{items.surname}
       </CListGroupItem>
       <CListGroupItem>
-        <b>TC : </b>{items?.tc}
+        <b>TC : </b>{items.tc}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Doğum Yeri : </b>{items?.birthPlace}
+        <b>Doğum Yeri : </b>{items.birthPlace}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Doğum Tarihi: </b>{items?.birthday}
+        <b>Doğum Tarihi: </b>{items.birthday}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Adres: </b>{items?.adress}
+        <b>Adres: </b>{items.adress}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Telefon : </b>{items?.phone}
+        <b>Telefon : </b>{items.phone}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Email : </b>{items?.email}
+        <b>Email : </b>{items.email}
       </CListGroupItem>
       <CListGroupItem>
         <b>İl : </b>{items?.provinces?.name}
@@ -76,19 +76,22 @@ const DetailApplicationPage = () => {
         <b>Almanca Dil Seviyesi Durumu: </b> {items?.germanLevel?.level}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Diğer Yabancı Dil: </b> {items?.otherLanguage?.name}
+        <b>Diğer Yabancı Dil: İngilizce</b> {items.speakEnglish ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Ehliyet : </b> {items?.drivingLicense ? 'Var' : 'Yok'}
+        <b>Diğer Yabancı Dil: Fransızca</b> {items.speakFrench ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Pasaport : </b>{items?.passport ? 'Var' : 'Yok'}
+        <b>Ehliyet : </b> {items.drivingLicense ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Boy : </b> {items?.length}
+        <b>Pasaport : </b>{items.passport ? 'Var' : 'Yok'}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Kilonuz : </b> {items?.weight}
+        <b>Boy : </b> {items.length}
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Kilo : </b> {items.weight}
       </CListGroupItem>
     </CListGroup>
 
@@ -97,7 +100,7 @@ const DetailApplicationPage = () => {
     <CListGroup>
       <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}>
         <b>Acil Durumda İrtibata Geçilecek Kişi</b>
-        </CListGroupItem>
+      </CListGroupItem>
       <CListGroupItem>
         <b>Adı Soyadı : </b> {items?.emergencyPersonFullName}
       </CListGroupItem>
@@ -113,20 +116,20 @@ const DetailApplicationPage = () => {
     </CListGroup>
     <br />
     <CListGroup>
-      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A', fontWeight:'bold'}}>
+      <CListGroupItem disabled style={{ backgroundColor: '#B1DDFF', color: '#425F8A', fontWeight: 'bold' }}>
         Başvuru Dosyaları
-        </CListGroupItem>
-      <CListGroupItem>
-        <b>Başvuru Formu : </b>
-        <a href="#">İndir</a>
       </CListGroupItem>
       <CListGroupItem>
-        <b>CV : </b>
-        <a href="#">İndir</a>
+        <b>CV : </b> 
+        <a href={items?.cvFile}> İndir</a>
       </CListGroupItem>
       <CListGroupItem>
-        <b>Ek Belge  : </b>
-        <a href="#">İndir</a>
+        <b>Sözleşme : </b>
+        <a href={items?.contractFile}> İndir</a>
+      </CListGroupItem>
+      <CListGroupItem>
+        <b>Ek Belge  : </b> 
+        <a href={items?.otherFile}> İndir</a>
       </CListGroupItem>
     </CListGroup>
   </>
