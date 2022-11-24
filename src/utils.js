@@ -2,6 +2,7 @@ import routes from './routes'
 import { generatePath } from 'react-router-dom'
 import store from './store'
 import { setUser } from './store/authSlice'
+import dayjs from 'dayjs'
 
 /**
  *
@@ -53,3 +54,10 @@ export const getPath = (path, data = {}) => {
 export const signOut = () => {
   store.dispatch(setUser(false))
 }
+
+export const dateFormat = (date) => dayjs(date).format('DD.MM.YYYY')
+export const getDate = () => dayjs().format('DD.MM.YYYY')
+
+export const hourFormat = (hour) => (hour < 10 ? '0' : '') + hour
+
+export const getHour = (date) => dayjs(date).format('HH')

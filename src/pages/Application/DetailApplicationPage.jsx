@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { ApplicationFormService } from '../../services'
+import { dateFormat } from '../../utils'
 
 const DetailApplicationPage = () => {
 
@@ -40,7 +41,7 @@ const DetailApplicationPage = () => {
         <b>Doğum Yeri : </b>{items.birthPlace}
       </CListGroupItem>
       <CListGroupItem>
-        <b>Doğum Tarihi: </b>{items.birthday}
+        <b>Doğum Tarihi: </b>{dateFormat(items.birthday)}
       </CListGroupItem>
       <CListGroupItem>
         <b>Adres: </b>{items.adress}
