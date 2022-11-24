@@ -123,6 +123,7 @@ const ListApplicationPage = () => {
                   className='text-center'
                   columns={columns}
                   items={items}
+                  responsive
                 />
               ) : (
                 <LoadingSpinner />

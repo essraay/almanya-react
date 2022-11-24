@@ -13,6 +13,7 @@ import React from 'react'
 import avatar8 from '../assets/images/settings.svg'
 import { useAppSelector } from '../store'
 import { getPath, signOut } from '../utils'
+import { BsFillGearFill } from 'react-icons/bs'
 
 const Header = () => {
   const { user } = useAppSelector((state) => state.authSlice)
@@ -38,13 +39,10 @@ const Header = () => {
                 color="light"
                 placement="bottom-end"
                 className="py-0"
-
               >
-                <CAvatar
-                  src={avatar8}
-                  size="xs"
+                <BsFillGearFill
+                  size={24}
                   className="setting-button"
-
                 />
               </CDropdownToggle>
               <CDropdownMenu

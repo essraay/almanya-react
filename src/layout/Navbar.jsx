@@ -8,11 +8,13 @@ import {
   CNavLink
 } from '@coreui/react'
 import React from 'react'
+import { useState } from 'react'
 import { useAppSelector } from '../store'
 import { getPath } from '../utils'
 
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.authSlice)
+  const [navbarVisibility, setNavbarVisibility] = useState(false)
 
   return (
     <>
@@ -24,8 +26,10 @@ const Navbar = () => {
       >
         <CContainer>
           <CNavbarToggler
+            onClick={() => setNavbarVisibility(x => !x)}
           />
           <CCollapse
+            visible={navbarVisibility}
             className="navbar-collapse justify-content-center"
           >
             <a class="navbar-toggle nav-link">

@@ -20,30 +20,35 @@ const Form = () => {
         <h1>Yükleniyor..</h1>
       ) : (
         <>
-          <div className="d-grid gap-3" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+          <div className="row">
             {items.map(item => (
-              <CCard key={item.id} className="w-full shadow">
-                <img
-                  className="card-img-top img-fluid"
-                  src={item.imagePath} style={{ maxHeight: '200px' }}
-                  alt="Card image cap"
-                />
-                <div className="card-body text-center">
-                  <p className="card-text">
-                    <b>
-                      {item.categoryName} Başvuru Formu
-                    </b>
-                  </p>
-                  <CButton
-                    href={getPath('forms.applicationForms', { id: item.id })}
-                    type="button"
-                    color="success"
-                    style={{ color: 'white' }}
-                  >
-                    Başvur
-                  </CButton>
-                </div>
-              </CCard>
+              <div className="p-1 col-12 col-md-6 col-lg-4 col-xl-3">
+                <CCard key={item.id} className="shadow">
+                  <div className="ratio ratio-16x9">
+                    <img
+                      className="card-img-top img-fluid"
+                      src={item.imagePath} style={{ objectFit: 'cover' }}
+                      alt="Card image cap"
+
+                    />
+                  </div>
+                  <div className="card-body text-center">
+                    <p className="card-text">
+                      <b>
+                        {item.categoryName} Başvuru Formu
+                      </b>
+                    </p>
+                    <CButton
+                      href={getPath('forms.applicationForms', { id: item.id })}
+                      type="button"
+                      color="success"
+                      style={{ color: 'white' }}
+                    >
+                      Başvur
+                    </CButton>
+                  </div>
+                </CCard>
+              </div>
             ))}
           </div>
         </>
