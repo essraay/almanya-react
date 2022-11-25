@@ -19,25 +19,25 @@ const Basvuru = () => {
         <h1>Yükleniyor..</h1>
       ) : (
         <>
-          <div className="justify-content-center mx-auto">
+          {/* <div className="justify-content-center mx-auto">
             <CCard className="w-full shadow">
               <CCardBody className='text-center'>
                 <p className="card-text">
                   <b>
                     Tüm Başvurular
                   </b>
-                </p>
+                </p> */}
                 {/* <CCardFooter className="text-medium-emphasis">
                   <p>1211 başvuru</p>
                 </CCardFooter> */}
                 {/* <br /> */}
-                <CButton href={getPath('applications.allapplications')} color="danger" variant="outline">
+                {/* <CButton href={getPath('applications.allapplications')} color="danger" variant="outline">
                   Başvuruları Görüntüle
                 </CButton>
               </CCardBody>
             </CCard>
-          </div>
-          <br />
+          </div> */}
+          {/* <br /> */}
           <div className="d-grid gap-3 mx-auto" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {items.map((item) => (
               <CCard key={item.id} className="w-full shadow">

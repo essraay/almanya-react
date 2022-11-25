@@ -87,7 +87,7 @@ const Login = () => {
                   <CForm
                     onSubmit={formik.handleSubmit}
                   >
-                    <h3>ENPERSONEL GİRİŞ SİSTEMİ</h3>
+                    <h3>GİRİŞ SİSTEMİ</h3>
                     <p className="text-medium-emphasis">Hesabınıza giriş yapınız</p>
                     <div className="mb-4">
                       <CInputGroup className="mb-3">

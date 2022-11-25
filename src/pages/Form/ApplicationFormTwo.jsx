@@ -24,7 +24,7 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
           </h4>
           <CCard
             className="mx-auto col-xl-10 shadow"
-            // style={{ height: '100px;', width: '100%' }}
+          // style={{ height: '100px;', width: '100%' }}
           >
             <CCardBody
               className="card-body "
@@ -41,7 +41,7 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                 >
                   <CRow>
                     <div className="form-group">
-                      <label>CV'nizi Yükleyin.</label>
+                      <label>CV'nizi Yükleyin</label>
                       <input
                         name="basvuruFormu1"
                         className="form-control"
@@ -61,7 +61,7 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                 >
                   <CRow>
                     <div className="form-group">
-                      <label>Sözleşmeyi yükleyin.</label>
+                      <label>Sözleşmeyi yükleyin</label>
                       <input
                         name="basvuruFormu2"
                         className="form-control"
@@ -72,6 +72,13 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                         }}
                       />
                     </div>
+                    <br />
+                    <div
+                      className="form-text text-center"
+                      style={{ color: 'blue' }}
+                    >
+                      Sözleşmeyi indirmek için <a href="/Files/OBM_Sozlesme.pdf" target="_blank">tıklayın</a>
+                    </div>
                   </CRow>
                 </div>
 
@@ -81,7 +88,7 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                 >
                   <CRow>
                     <div className="form-group">
-                      <label>Belgeyi Yükleyin.</label>
+                      <label>Belgeyi Yükleyin</label>
                       <input
                         name="basvuruFormu3"
                         className="form-control"
