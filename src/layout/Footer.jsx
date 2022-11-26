@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
-                        © <a href="">Kobizon</a> 2022
+                        © <a href="">xxx</a> 2022
                     </div>
                 </div>
             </div>
