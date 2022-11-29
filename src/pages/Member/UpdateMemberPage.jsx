@@ -96,7 +96,7 @@ const UpdateMemberPage = () => {
                 </CForm>
 
                 <br />
-                <div class="col text-center">
+                <div className="col text-center">
                   <CButton className="mx-auto" onClick={() => setVisible(!visible)}>Kaydet</CButton>
                 </div>
 

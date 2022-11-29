@@ -32,8 +32,8 @@ const Navbar = () => {
             visible={navbarVisibility}
             className="navbar-collapse justify-content-center"
           >
-            <a class="navbar-toggle nav-link">
-              <div class="lines">
+            <a className="navbar-toggle nav-link">
+              <div className="lines">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -43,17 +43,30 @@ const Navbar = () => {
             <CNavbarNav className='gap-5'>
               {user && <><CNavItem>
                 <CNavLink className='col-md-4' href={getPath('homepage')} active>
-                  <h6 style={{ color: '#13004D' }}>Anasayfa</h6>
+                  <p
+                    className='fw-bolder'
+                    style={{ color: '#13004D' }}
+                  >
+                    Anasayfa
+                  </p>
                 </CNavLink>
               </CNavItem>
                 <CNavItem className='col-md-4'>
                   <CNavLink href={getPath('applications')}>
-                    <h6>Başvurular</h6>
+                    <p
+                      className='fw-bolder'
+                    >
+                      Başvurular
+                    </p>
                   </CNavLink>
                 </CNavItem></>}
               <CNavItem className='col-md-4'>
                 <CNavLink href={getPath('forms')}>
-                  <h6>Formlar</h6>
+                  <p
+                    className='fw-bolder'
+                  >
+                    Formlar
+                  </p>
                 </CNavLink>
               </CNavItem>
             </CNavbarNav>

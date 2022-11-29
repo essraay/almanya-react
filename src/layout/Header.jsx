@@ -52,7 +52,9 @@ const Header = () => {
                 <CDropdownHeader
                   style={{ backgroundColor: '#3C4B64', color: 'white' }}
                 >
-                  <h6>Seçenekler</h6>
+                  <p className='fw-bolder'>
+                    Seçenekler
+                  </p>
                 </CDropdownHeader>
                 <CDropdownItem
                   href={getPath('members')}

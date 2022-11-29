@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import LoadingSpinner from '../../components/LoadingSpinner'
-import { ApplicationFormService, CategoryService } from '../../services'
+import { CategoryService } from '../../services'
 import { getPath } from '../../utils'
 
 const ListApplicationPage = () => {
@@ -97,7 +97,7 @@ const ListApplicationPage = () => {
             <CButtonGroup>
               <div className="d-flex gap-2">
                 <Link
-                  to={getPath('applications.detail', { id: item.id } )}
+                  to={getPath('applications.detail', { id: item.id })}
                   className="btn btn-primary btn-sm"
                 >
                   Detay
@@ -119,12 +119,14 @@ const ListApplicationPage = () => {
           <CCard className='mx-auto my-3 col-xl-12 shadow'>
             <CCardBody>
               {!loading ? (
-                <CTable
-                  className='text-center'
-                  columns={columns}
-                  items={items}
-                  responsive
-                />
+                <>
+                  <CTable
+                    className='text-center'
+                    columns={columns}
+                    items={items}
+                    responsive
+                  />
+                </>
               ) : (
                 <LoadingSpinner />
               )}

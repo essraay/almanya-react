@@ -80,7 +80,7 @@ const MemberPage = () => {
                 </CCardBody>
               </CCard>
               <br />
-              <div class="col text-center">
+              <div className="col text-center">
                 <CButton
                 href={getPath('members.update')}
                 className="update-btn text-center"

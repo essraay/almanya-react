@@ -204,7 +204,6 @@ const ApplicationFormPage = () => {
                         {errorMessage('tc')}
                       </div>
                     </CRow>
-
                     <CRow>
                       <div
                         className="form-group col-md-6"
@@ -235,7 +234,6 @@ const ApplicationFormPage = () => {
                         {errorMessage('surname')}
                       </div>
                     </CRow>
-
                     <CRow>
                       <div
                         className="form-group col-md-6"
@@ -266,7 +264,6 @@ const ApplicationFormPage = () => {
                         {errorMessage('birthPlace')}
                       </div>
                     </CRow>
-
                     <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
@@ -287,7 +284,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -335,7 +331,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
@@ -378,7 +373,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
@@ -402,7 +396,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
@@ -436,7 +429,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
@@ -479,7 +471,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -525,7 +516,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div className="form-block">
                       <div
                         className="form-group"
@@ -603,7 +593,6 @@ const ApplicationFormPage = () => {
                         </CRow>
                       </div>
                     </div>
-
                     <div className="form-block">
                       <div
                         className="form-group"
@@ -671,11 +660,6 @@ const ApplicationFormPage = () => {
                         </CRow>
                       </div>
                     </div>
-
-
-
-
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -707,7 +691,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div className="form-block">
                       <div
                         className="form-group"
@@ -729,7 +712,6 @@ const ApplicationFormPage = () => {
                         </CRow>
                       </div>
                     </div>
-
                     <div className="form-block">
                       <div
                         className="form-group"
@@ -751,7 +733,6 @@ const ApplicationFormPage = () => {
                         </CRow>
                       </div>
                     </div>
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -796,7 +777,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -841,7 +821,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div
                       className="form-group col-md-6"
                       style={{ margin: '5% 0' }}
@@ -852,7 +831,6 @@ const ApplicationFormPage = () => {
                         </h5>
                       </div>
                     </div>
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -886,7 +864,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div className="form-block">
                       <CRow>
                         <div
@@ -919,7 +896,6 @@ const ApplicationFormPage = () => {
                         </div>
                       </CRow>
                     </div>
-
                     <div
                       className="d-flex justify-content-center"
                       style={{ margin: '3% 0' }}
