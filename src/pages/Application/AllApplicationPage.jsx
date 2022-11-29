@@ -1,8 +1,16 @@
-import { CButton, CButtonGroup, CCard, CCardBody, CContainer, CFormSelect, CRow, CTable } from "@coreui/react"
+import { CButtonGroup, CCard, CCardBody, CContainer, CFormSelect, CRow, CTable } from "@coreui/react"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import LoadingSpinner from "../../components/LoadingSpinner"
-import { AgeRangeService, ApplicationFormService, CategoryService, GenderService, GermanLanguageLevelService, NationalitieService, ProvinceService } from "../../services"
+import {
+  AgeRangeService,
+  ApplicationFormService,
+  CategoryService,
+  GenderService,
+  GermanLanguageLevelService,
+  NationalitieService,
+  ProvinceService
+} from "../../services"
 import { getPath } from '../../utils'
 
 const AllApplicationPage = () => {
@@ -107,35 +115,30 @@ const AllApplicationPage = () => {
       setGenderList(response.data)
     })
   }, [])
-
   const [nationalityList, setNationalityList] = useState([])
   useEffect(() => {
     NationalitieService.getAll().then((response) => {
       setNationalityList(response.data)
     })
   }, [])
-
   const [ageRangeList, setAgeRangeList] = useState([])
   useEffect(() => {
     AgeRangeService.getAll().then((response) => {
       setAgeRangeList(response.data)
     })
   }, [])
-
   const [germanLevelList, setGermanLevelList] = useState([])
   useEffect(() => {
     GermanLanguageLevelService.getAll().then((response) => {
       setGermanLevelList(response.data)
     })
   }, [])
-
   const [categoryList, setCategoryList] = useState([])
   useEffect(() => {
     CategoryService.getAll().then((response) => {
       setCategoryList(response.data)
     })
   }, [])
-
   const [provinceList, setProvinceList] = useState([])
   useEffect(() => {
     ProvinceService.getAll().then((response) => {
@@ -209,7 +212,7 @@ const AllApplicationPage = () => {
                           value: category.id,
                         }))]}
                       />
-                         
+
                     </div>
                     <div
                       className="form-group col-md-2"
@@ -283,7 +286,6 @@ const AllApplicationPage = () => {
       </CContainer>
       {/* <FilterModal visible={filterModalVisibility} onClose={() => setFilterModalVisibility(false)} /> */}
     </>
-
   )
 }
 export default AllApplicationPage
