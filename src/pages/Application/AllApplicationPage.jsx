@@ -1,21 +1,21 @@
-import { CButtonGroup, CCard, CCardBody, CContainer, CFormSelect, CRow, CTable } from "@coreui/react"
+import { CButtonGroup, CCard, CCardBody, CContainer, CRow, CTable } from "@coreui/react"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import LoadingSpinner from "../../components/LoadingSpinner"
-import {
-  AgeRangeService,
-  ApplicationFormService,
-  CategoryService,
-  GenderService,
-  GermanLanguageLevelService,
-  NationalitieService,
-  ProvinceService
-} from "../../services"
+import { ApplicationFormService } from "../../services"
 import { getPath } from '../../utils'
+import FilterSearchBox from "./components/FilterSearchBox"
 
 const AllApplicationPage = () => {
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState()
+
+  const [searchParams, setSearchParams] = useSearchParams({})
+
+  const [filter, setFilter] = useState(() => {
+    return Object.fromEntries(Array.from(searchParams.entries()))
+  })
+
 
   const columns = [
     {
@@ -76,7 +76,12 @@ const AllApplicationPage = () => {
   ]
 
   useEffect(() => {
-    ApplicationFormService.getAll()
+    fetchData()
+    setSearchParams(filter)
+  }, [filter])
+
+  const fetchData = () => {
+    ApplicationFormService.getAll(filter)
       .then((res) => {
         const newItems = res.data.map((item) => ({
           tc: `${item.tc} `,
@@ -106,45 +111,7 @@ const AllApplicationPage = () => {
         setItems(newItems)
       })
       .finally(() => setLoading(false))
-  }, [])
-
-  // const [filterModalVisibility, setFilterModalVisibility] = useState(false)
-  const [genderList, setGenderList] = useState([])
-  useEffect(() => {
-    GenderService.getAll().then((response) => {
-      setGenderList(response.data)
-    })
-  }, [])
-  const [nationalityList, setNationalityList] = useState([])
-  useEffect(() => {
-    NationalitieService.getAll().then((response) => {
-      setNationalityList(response.data)
-    })
-  }, [])
-  const [ageRangeList, setAgeRangeList] = useState([])
-  useEffect(() => {
-    AgeRangeService.getAll().then((response) => {
-      setAgeRangeList(response.data)
-    })
-  }, [])
-  const [germanLevelList, setGermanLevelList] = useState([])
-  useEffect(() => {
-    GermanLanguageLevelService.getAll().then((response) => {
-      setGermanLevelList(response.data)
-    })
-  }, [])
-  const [categoryList, setCategoryList] = useState([])
-  useEffect(() => {
-    CategoryService.getAll().then((response) => {
-      setCategoryList(response.data)
-    })
-  }, [])
-  const [provinceList, setProvinceList] = useState([])
-  useEffect(() => {
-    ProvinceService.getAll().then((response) => {
-      setProvinceList(response.data)
-    })
-  }, [])
+  }
 
   return (
     <>
@@ -154,123 +121,9 @@ const AllApplicationPage = () => {
             <CCardBody>
               {!loading ? (
                 <>
-                  {/* <CButton onClick={() => setFilterModalVisibility(true)}>
-                    Filtrele
-                    <FaFilter />
-                  </CButton> */}
-                  <CRow>
-                    <div
-                      className="form-group col-md-2"
-                      style={{ color: '#6D4D4D', margin: '1% 0' }}
-                    >
-                      <CFormSelect
-                        style={{ borderColor: 'blue' }}
-                        type="text"
-                        name="gender"
-                        options={[{
-                          label: "Seçiniz",
-                          value: '-1',
-                          disabled: true,
-                        }, ...genderList.map((gender) => ({
-                          label: gender.name,
-                          value: gender.id,
-                        }))]}
-                      />
-                    </div>
-                    <div
-                      className="form-group col-md-2"
-                      style={{ margin: '1% 0' }}
-                    >
-                      <CFormSelect
-                        style={{ borderColor: 'blue' }}
-                        type="text"
-                        name="ageRange"
-                        options={[{
-                          label: "Seçiniz",
-                          value: '-1',
-                          disabled: true,
-                        }, ...ageRangeList.map((ageRange) => ({
-                          label: ageRange.range,
-                          value: ageRange.id,
-                        }))]}
-                      />
-                    </div>
-                    <div
-                      className="form-group col-md-2"
-                      style={{ margin: '1% 0' }}
-                    >
-                      <CFormSelect
-                        style={{ borderColor: 'blue' }}
-                        type="text"
-                        name="category"
-                        options={[{
-                          label: "Seçiniz",
-                          value: '-1',
-                          disabled: true,
-                        }, ...categoryList.map((category) => ({
-                          label: category.categoryName,
-                          value: category.id,
-                        }))]}
-                      />
-
-                    </div>
-                    <div
-                      className="form-group col-md-2"
-                      style={{ margin: '1% 0' }}
-                    >
-                      <CFormSelect
-                        style={{ borderColor: 'blue' }}
-                        type="text"
-                        name="germanLevel"
-                        options={[{
-                          label: "Seçiniz",
-                          value: '-1',
-                          disabled: true,
-                        }, ...germanLevelList.map((germanLevel) => ({
-                          label: germanLevel.level,
-                          value: germanLevel.id,
-                        }))]}
-                      />
-                    </div>
-                    <div
-                      className="form-group col-md-2"
-                      style={{ margin: '1% 0' }}
-                    >
-                      <CFormSelect
-                        style={{ borderColor: 'blue' }}
-                        type="text"
-                        name="nationality"
-                        options={[{
-                          label: "Seçiniz",
-                          value: '-1',
-                          disabled: true,
-                        }, ...nationalityList.map((nationality) => ({
-                          label: nationality.name,
-                          value: nationality.id,
-                        }))]}
-                      />
-                    </div>
-                    <div
-                      className="form-group col-md-2"
-                      style={{ margin: '1% 0' }}
-                    >
-                      <CFormSelect
-                        style={{ borderColor: 'blue' }}
-                        type="text"
-                        name="province"
-                        options={[{
-                          label: "Seçiniz",
-                          value: '-1',
-                          disabled: true,
-                        }, ...provinceList.map((province) => ({
-                          label: province.name,
-                          value: province.id,
-                        }))]}
-                      />
-                    </div>
-                  </CRow>
-
+                  <FilterSearchBox onChange={(value) => setFilter(value)} filterValue={filter} />
                   <CTable
+                    key={items.id}
                     className='text-center'
                     columns={columns}
                     items={items}
@@ -284,7 +137,6 @@ const AllApplicationPage = () => {
           </CCard>
         </CRow>
       </CContainer>
-      {/* <FilterModal visible={filterModalVisibility} onClose={() => setFilterModalVisibility(false)} /> */}
     </>
   )
 }

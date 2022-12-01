@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { ProvinceService } from "../../../services"
 
 const FilterModal = ({ visible = false, onClose }) => {
-
     const [provinceList, setProvinceList] = useState([])
 
     useEffect(() => {
