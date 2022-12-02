@@ -14,42 +14,33 @@ const FilterSearchBox = ({ onChange, filterValue = {} }) => {
     const [filter, setFilter] = useState(filterValue)
     useEffect(() => onChange?.(filter), [filter])
 
-    const [genderList, setGenderList] = useState([])
     useEffect(() => {
         GenderService.getAll().then((response) => {
             setGenderList(response.data)
         })
-    }, [])
-    const [nationalityList, setNationalityList] = useState([])
-    useEffect(() => {
         NationalitieService.getAll().then((response) => {
             setNationalityList(response.data)
         })
-    }, [])
-    const [ageRangeList, setAgeRangeList] = useState([])
-    useEffect(() => {
         AgeRangeService.getAll().then((response) => {
             setAgeRangeList(response.data)
         })
-    }, [])
-    const [germanLevelList, setGermanLevelList] = useState([])
-    useEffect(() => {
         GermanLanguageLevelService.getAll().then((response) => {
             setGermanLevelList(response.data)
         })
-    }, [])
-    const [categoryList, setCategoryList] = useState([])
-    useEffect(() => {
         CategoryService.getAll().then((response) => {
             setCategoryList(response.data)
         })
-    }, [])
-    const [provinceList, setProvinceList] = useState([])
-    useEffect(() => {
         ProvinceService.getAll().then((response) => {
             setProvinceList(response.data)
         })
     }, [])
+
+    const [genderList, setGenderList] = useState([])
+    const [nationalityList, setNationalityList] = useState([])
+    const [ageRangeList, setAgeRangeList] = useState([])
+    const [germanLevelList, setGermanLevelList] = useState([])
+    const [categoryList, setCategoryList] = useState([])
+    const [provinceList, setProvinceList] = useState([])
 
     return (
         <div className="d-flex flex-row gap-3">
