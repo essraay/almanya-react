@@ -12,6 +12,7 @@ import {
 import { useFormik } from 'formik'
 import { useCallback } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { MultiSelect } from 'react-multi-select-component'
 import { useParams } from 'react-router-dom'
 import { ApplicationFormService, ProvinceService } from '../../services'
 import { ApplicationFormSchema } from '../../validations/ApplicationFormSchema'
@@ -32,38 +33,40 @@ const ApplicationFormPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      tc: '',
-      name: '',
-      surname: '',
-      birthday: '',
-      birthPlace: '',
-      adress: '',
-      provincesId: '-1',
-      districtId: '-1',
-      nationalityId: '',
-      dualNationality: false,
-      genderId: '',
-      ageRangeId: '',
-      phone: '',
-      email: '',
-      graduationId: '',
-      germanLevelId: '',
-      speakEnglish: false,
-      speakFrench: false,
-      drivingLicense: false,
-      passport: false,
-      length: '',
-      weight: '',
-      disabilityStatus: '',
-      chronicDisease: '',
-      emergencyPersonFullName: '',
-      emergencyPersonPhone: '',
-      emergencyPersonEmail: '',
-      emergencyPersonDegreeOfProximity: '',
+      applicationForm: {
+        name: '',
+        surname: '',
+        birthday: '',
+        birthPlace: '',
+        provincesId: '-1',
+        districtId: '-1',
+        nationalityId: '4',
+        dualNationality: false,
+        genderId: '3',
+        ageRangeId: '4',
+        phone: '',
+        email: '',
+        graduationId: '8',
+        germanLevelId: '7',
+        drivingLicense: false,
+        passport: false,
+        length: '',
+        weight: '',
+        disabilityStatus: '',
+        chronicDisease: '',
+        emergencyPersonFullName: '',
+        emergencyPersonPhone: '',
+        emergencyPersonEmail: '',
+        emergencyPersonDegreeOfProximity: '',
+        appSelectedLanguages: [],
+        categoryId,
+      },
     },
     validationSchema: ApplicationFormSchema,
     onSubmit: (values) => {
-      setInformationFormData(values)
+      // const otherLanguage = values.otherLanguage.length > 0 ? values.otherLanguages : ['14']
+      console.log(values.applicationForm.appSelectedLanguages)
+      setInformationFormData({ ...values })
       setState('fileForm')
     },
   })
@@ -74,7 +77,6 @@ const ApplicationFormPage = () => {
     ApplicationFormService.createApplication({
       ...informationFormData,
       ...fileFormData,
-      categoryId,
     })
       .then((response) => {
         console.log('response :>> ', response)
@@ -104,7 +106,7 @@ const ApplicationFormPage = () => {
       })
   }
 
-  console.log(formik.errors)
+  // console.log(formik.errors)
 
   const errorMessage = useCallback(
     (key) => {
@@ -122,12 +124,13 @@ const ApplicationFormPage = () => {
   const formRef = useRef()
   const [loading, setLoading] = useState(false)
   const [provinceList, setProvinceList] = useState([])
+  // eslint-disable-next-line no-unused-vars
   const [provinceId, setProvinceId] = useState(1)
   const activeProvince = useMemo(() => {
-    return formik.values.provincesId > 0 && provinceList.length > 0
-      ? provinceList.find((province) => province.id == formik.values.provincesId)
+    return formik.values.applicationForm.provincesId > 0 && provinceList.length > 0
+      ? provinceList.find((province) => province.id == formik.values.applicationForm.provincesId)
       : undefined
-  }, [provinceList, formik.values.provincesId])
+  }, [provinceList, formik.values.applicationForm.provincesId])
 
   const [state, setState] = useState('informationForm') // informationForm, fileForm
 
@@ -137,6 +140,33 @@ const ApplicationFormPage = () => {
     })
     formRef.current.querySelector('input').focus()
   }, [])
+
+  const options = [
+    { label: 'Almanca', value: '1' },
+    { label: 'İngilizce', value: '2' },
+    { label: 'Fransızca', value: '3' },
+    { label: 'Azerice', value: '4' },
+    { label: 'Yunanca', value: '5' },
+    { label: 'Ermenice', value: '6' },
+    { label: 'İbranice', value: '7' },
+    { label: 'Gürcüce', value: '8' },
+    { label: 'Azerice', value: '9' },
+    { label: 'Hırvatça', value: '10' },
+    { label: 'Kazakça', value: '11' },
+    { label: 'Özbekçe', value: '12' },
+    { label: 'Fince', value: '13' },
+  ]
+
+  const [selected, setSelected] = useState([])
+
+  useEffect(() => {
+    formik.setFieldValue(
+      'applicationForm.appSelectedLanguages',
+      selected?.map((x) => ({
+        OtherLanguageId: x.value,
+      }))
+    )
+  }, [selected])
 
   if (state === 'fileForm')
     return (
@@ -171,7 +201,7 @@ const ApplicationFormPage = () => {
               </h4>
               <CCard
                 className="mx-auto col-xl-10 shadow"
-              // style={{ height: '100px;', width: '100%' }}
+                // style={{ height: '100px;', width: '100%' }}
               >
                 <CCardBody
                   className="card-body"
@@ -187,7 +217,7 @@ const ApplicationFormPage = () => {
                           <h5 style={{ color: '#5C4040' }}>Kişisel Bilgiler</h5>
                         </div>
                       </div>
-                      <div
+                      {/* <div
                         className="form-group col-md-6"
                         style={{ color: '#6D4D4D' }}
                       >
@@ -202,7 +232,7 @@ const ApplicationFormPage = () => {
                           onBlur={formik.handleBlur}
                         />
                         {errorMessage('tc')}
-                      </div>
+                      </div> */}
                     </CRow>
                     <CRow>
                       <div
@@ -211,9 +241,9 @@ const ApplicationFormPage = () => {
                       >
                         <CFormInput
                           type="text"
-                          name="name"
-                          label="Adınız"
-                          value={formik.values.name}
+                          name="applicationForm.name"
+                          label="Adınız*"
+                          value={formik.values.applicationForm.name}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
@@ -225,9 +255,9 @@ const ApplicationFormPage = () => {
                       >
                         <CFormInput
                           type="text"
-                          name="surname"
-                          label="Soyadınız"
-                          value={formik.values.surname}
+                          name="applicationForm.surname"
+                          label="Soyadınız*"
+                          value={formik.values.applicationForm.surname}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
@@ -241,9 +271,9 @@ const ApplicationFormPage = () => {
                       >
                         <CFormInput
                           type="date"
-                          name="birthday"
-                          label="Doğum Tarihi"
-                          value={formik.values.birthday}
+                          name="applicationForm.birthday"
+                          label="Doğum Tarihi*"
+                          value={formik.values.applicationForm.birthday}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
@@ -255,16 +285,16 @@ const ApplicationFormPage = () => {
                       >
                         <CFormInput
                           type="text"
-                          name="birthPlace"
+                          name="applicationForm.birthPlace"
                           label="Doğum Yeri"
-                          value={formik.values.birthPlace}
+                          value={formik.values.applicationForm.birthPlace}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
                         {errorMessage('birthPlace')}
                       </div>
                     </CRow>
-                    <div
+                    {/* <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
                     >
@@ -283,7 +313,7 @@ const ApplicationFormPage = () => {
                           {errorMessage('adress')}
                         </div>
                       </CRow>
-                    </div>
+                    </div> */}
                     <div className="form-block">
                       <CRow>
                         <div
@@ -291,44 +321,49 @@ const ApplicationFormPage = () => {
                           style={{ color: '#6D4D4D', margin: '1% 0' }}
                         >
                           <CFormSelect
-                            label="İl"
+                            label="İl*"
                             aria-label="Default select example"
-                            name="provincesId"
+                            name="applicationForm.provincesId"
                             onChange={formik.handleChange}
-                            value={formik.values.provincesId}
-                            options={[{
-                              label: "Seçiniz",
-                              value: '-1',
-                              disabled: true,
-
-
-                            }, ...provinceList.map((province) => ({
-                              label: province.name,
-                              value: province.id,
-                            }))]}
+                            value={formik.values.applicationForm.provincesId}
+                            options={[
+                              {
+                                label: 'Seçiniz',
+                                value: '-1',
+                                disabled: true,
+                              },
+                              ...provinceList.map((province) => ({
+                                label: province.name,
+                                value: province.id,
+                              })),
+                            ]}
                           />
                         </div>
+                        {errorMessage('provincesId')}
                         <div
                           className="form-group col-md-6"
                           style={{ color: '#6D4D4D', margin: '1% 0' }}
                         >
                           <CFormSelect
-                            label="İlçe"
+                            label="İlçe*"
                             aria-label="Default select example"
-                            name="districtId"
+                            name="applicationForm.districtId"
                             onChange={formik.handleChange}
-                            value={formik.values.districtId}
-                            options={[{
-                              label: "Seçiniz",
-                              value: '-1',
-                              disabled: true,
-                            },
-                            ...(activeProvince?.districts?.map((district) => ({
-                              label: district.name,
-                              value: district.id,
-                            })) || [])]}
+                            value={formik.values.applicationForm.districtId}
+                            options={[
+                              {
+                                label: 'Seçiniz',
+                                value: '-1',
+                                disabled: true,
+                              },
+                              ...(activeProvince?.districts?.map((district) => ({
+                                label: district.name,
+                                value: district.id,
+                              })) || []),
+                            ]}
                           />
                         </div>
+                        {errorMessage('districtId')}
                       </CRow>
                     </div>
                     <div
@@ -343,32 +378,32 @@ const ApplicationFormPage = () => {
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="nationalityId"
+                                name="applicationForm.nationalityId"
                                 value="1"
                                 label="T.C."
-                                checked={formik.values.nationalityId === '1'}
+                                checked={formik.values.applicationForm.nationalityId === '1'}
                                 onChange={formik.handleChange}
                               />
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="nationalityId"
+                                name="applicationForm.nationalityId"
                                 value="2"
                                 label="A.B."
-                                checked={formik.values.nationalityId === '2'}
+                                checked={formik.values.applicationForm.nationalityId === '2'}
                                 onChange={formik.handleChange}
                               />
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="nationalityId"
+                                name="applicationForm.nationalityId"
                                 value="3"
                                 label="Diğer"
-                                checked={formik.values.nationalityId === '3'}
+                                checked={formik.values.applicationForm.nationalityId === '3'}
                                 onChange={formik.handleChange}
                               />
                             </div>
-                            {errorMessage('nationalityId')}
+                            {errorMessage('applicationForm.nationalityId')}
                           </CRow>
                         </div>
                       </CRow>
@@ -385,9 +420,9 @@ const ApplicationFormPage = () => {
                               <CFormCheck
                                 inline
                                 type="checkbox"
-                                name="dualNationality"
+                                name="applicationForm.dualNationality"
                                 label="(Varsa işaretleyin)"
-                                checked={formik.values.dualNationality}
+                                checked={formik.values.applicationForm.dualNationality}
                                 onChange={formik.handleChange}
                               />
                             </div>
@@ -408,19 +443,19 @@ const ApplicationFormPage = () => {
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="genderId"
+                                name="applicationForm.genderId"
                                 value="1"
                                 label="Kadın"
-                                checked={formik.values.genderId === '1'}
+                                checked={formik.values.applicationForm.genderId === '1'}
                                 onChange={formik.handleChange}
                               />
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="genderId"
+                                name="applicationForm.genderId"
                                 value="2"
                                 label="Erkek"
-                                checked={formik.values.genderId === '2'}
+                                checked={formik.values.applicationForm.genderId === '2'}
                                 onChange={formik.handleChange}
                               />
                             </div>
@@ -441,28 +476,28 @@ const ApplicationFormPage = () => {
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="ageRangeId"
+                                name="applicationForm.ageRangeId"
                                 value="1"
                                 label="18-25"
-                                checked={formik.values.ageRangeId === '1'}
+                                checked={formik.values.applicationForm.ageRangeId === '1'}
                                 onChange={formik.handleChange}
                               />
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="ageRangeId"
+                                name="applicationForm.ageRangeId"
                                 value="2"
                                 label="26-45"
-                                checked={formik.values.ageRangeId === '2'}
+                                checked={formik.values.applicationForm.ageRangeId === '2'}
                                 onChange={formik.handleChange}
                               />
                               <CFormCheck
                                 inline
                                 type="radio"
-                                name="ageRangeId"
+                                name="applicationForm.ageRangeId"
                                 value="3"
                                 label="45-55"
-                                checked={formik.values.ageRangeId === '3'}
+                                checked={formik.values.applicationForm.ageRangeId === '3'}
                                 onChange={formik.handleChange}
                               />
                             </div>
@@ -479,10 +514,10 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="phone"
-                            label="Cep Telefonu Numaranız"
+                            name="applicationForm.phone"
+                            label="Cep Telefonu Numaranız*"
                             maxLength={11}
-                            value={formik.values.phone}
+                            value={formik.values.applicationForm.phone}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -500,9 +535,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="email"
-                            name="email"
-                            label="E-Posta Adresiniz"
-                            value={formik.values.email}
+                            name="applicationForm.email"
+                            label="E-Posta Adresiniz*"
+                            value={formik.values.applicationForm.email}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -527,65 +562,65 @@ const ApplicationFormPage = () => {
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="1"
                               label="İlkokul"
-                              checked={formik.values.graduationId === '1'}
+                              checked={formik.values.applicationForm.graduationId === '1'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="2"
                               label="Ortaokul"
-                              checked={formik.values.graduationId === '2'}
+                              checked={formik.values.applicationForm.graduationId === '2'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="3"
                               label="Lise"
-                              checked={formik.values.graduationId === '3'}
+                              checked={formik.values.applicationForm.graduationId === '3'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="4"
                               label="Önlisans"
-                              checked={formik.values.graduationId === '4'}
+                              checked={formik.values.applicationForm.graduationId === '4'}
                               onChange={formik.handleChange}
                             />
                             <br />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="5"
                               label="Lisans"
-                              checked={formik.values.graduationId === '5'}
+                              checked={formik.values.applicationForm.graduationId === '5'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="6"
                               label="Yüksek Lisans"
-                              checked={formik.values.graduationId === '6'}
+                              checked={formik.values.applicationForm.graduationId === '6'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="graduationId"
+                              name="applicationForm.graduationId"
                               value="7"
                               label="Doktora"
-                              checked={formik.values.graduationId === '7'}
+                              checked={formik.values.applicationForm.graduationId === '7'}
                               onChange={formik.handleChange}
                             />
                             {errorMessage('graduationId')}
@@ -604,55 +639,55 @@ const ApplicationFormPage = () => {
                             <CFormCheck
                               inline
                               type="radio"
-                              name="germanLevelId"
+                              name="applicationForm.germanLevelId"
                               value="1"
                               label="Bilmiyorum"
-                              checked={formik.values.germanLevelId === '1'}
+                              checked={formik.values.applicationForm.germanLevelId === '1'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="germanLevelId"
+                              name="applicationForm.germanLevelId"
                               value="2"
                               label="A1"
-                              checked={formik.values.germanLevelId === '2'}
+                              checked={formik.values.applicationForm.germanLevelId === '2'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="germanLevelId"
+                              name="applicationForm.germanLevelId"
                               value="3"
                               label="A2"
-                              checked={formik.values.germanLevelId === '3'}
+                              checked={formik.values.applicationForm.germanLevelId === '3'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="germanLevelId"
+                              name="applicationForm.germanLevelId"
                               value="4"
                               label="B1"
-                              checked={formik.values.germanLevelId === '4'}
+                              checked={formik.values.applicationForm.germanLevelId === '4'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="germanLevelId"
+                              name="applicationForm.germanLevelId"
                               value="5"
                               label="B2"
-                              checked={formik.values.germanLevelId === '5'}
+                              checked={formik.values.applicationForm.germanLevelId === '5'}
                               onChange={formik.handleChange}
                             />
                             <CFormCheck
                               inline
                               type="radio"
-                              name="germanLevelId"
+                              name="applicationForm.germanLevelId"
                               value="6"
                               label="C1"
-                              checked={formik.values.germanLevelId === '6'}
+                              checked={formik.values.applicationForm.germanLevelId === '6'}
                               onChange={formik.handleChange}
                             />
                             {errorMessage('germanLevelId')}
@@ -660,36 +695,26 @@ const ApplicationFormPage = () => {
                         </CRow>
                       </div>
                     </div>
-                    <div className="form-block">
-                      <CRow>
-                        <div
-                          className="form-group col-md-6"
-                          style={{ color: '#6D4D4D', margin: '1% 0' }}
-                        >
-                          <CFormCheck
-                            type="checkbox"
-                            name="speakEnglish"
-                            label="İngilizce biliyorum."
-                            checked={formik.values.speakEnglish}
-                            onChange={formik.handleChange}
-                          />
-                          {errorMessage('speakEnglish')}
-                        </div>
-                        <div
-                          className="form-group col-md-6"
-                          style={{ color: '#6D4D4D', margin: '1% 0' }}
-                        >
-                          <CFormCheck
-                            inline
-                            type="checkbox"
-                            name="speakFrench"
-                            label="Fransızca biliyorum."
-                            checked={formik.values.speakFrench}
-                            onChange={formik.handleChange}
-                          />
-                          {errorMessage('speakFrench')}
-                        </div>
-                      </CRow>
+                    <div
+                      className="form-block"
+                      style={{ margin: '2% 0', color: '#425F8A' }}
+                    >
+                      <p
+                        className="form-group col-md-6"
+                        style={{ color: '#6D4D4D' }}
+                      >
+                        Bildiğiniz diğer dilleri işaretleyin
+                      </p>
+
+                      <MultiSelect
+                        className="form-group col-md-6 align-items-end"
+                        name="applicationForm.appSelectedLanguages"
+                        options={options}
+                        value={selected}
+                        onChange={setSelected}
+                        label="Bildiğiniz diğer dilleri işaretleyin."
+                        checked={formik.values.applicationForm.appSelectedLanguages}
+                      />
                     </div>
                     <div className="form-block">
                       <div
@@ -702,9 +727,9 @@ const ApplicationFormPage = () => {
                             <CFormCheck
                               inline
                               type="checkbox"
-                              name="drivingLicense"
+                              name="applicationForm.drivingLicense"
                               label="(Varsa işaretleyin)"
-                              checked={formik.values.drivingLicense}
+                              checked={formik.values.applicationForm.drivingLicense}
                               onChange={formik.handleChange}
                             />
                             {errorMessage('drivingLicense')}
@@ -723,9 +748,9 @@ const ApplicationFormPage = () => {
                             <CFormCheck
                               inline
                               type="checkbox"
-                              name="passport"
+                              name="applicationForm.passport"
                               label="(Varsa işaretleyin)"
-                              checked={formik.values.passport}
+                              checked={formik.values.applicationForm.passport}
                               onChange={formik.handleChange}
                             />
                             {errorMessage('passport')}
@@ -741,9 +766,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="length"
+                            name="applicationForm.length"
                             label="Boy"
-                            value={formik.values.length}
+                            value={formik.values.applicationForm.length}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -761,9 +786,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="weight"
+                            name="applicationForm.weight"
                             label="Kilonuz"
-                            value={formik.values.weight}
+                            value={formik.values.applicationForm.weight}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -785,9 +810,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="disabilityStatus"
+                            name="applicationForm.disabilityStatus"
                             label="Engellilik Durumu"
-                            value={formik.values.disabilityStatus}
+                            value={formik.values.applicationForm.disabilityStatus}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -805,9 +830,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="chronicDisease"
+                            name="applicationForm.chronicDisease"
                             label="Kalıcı kronik bir hastalığınız var mı?"
-                            value={formik.values.chronicDisease}
+                            value={formik.values.applicationForm.chronicDisease}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -839,9 +864,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="emergencyPersonFullName"
+                            name="applicationForm.emergencyPersonFullName"
                             label="Ad ve Soyad"
-                            value={formik.values.emergencyPersonFullName}
+                            value={formik.values.applicationForm.emergencyPersonFullName}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -853,10 +878,10 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="emergencyPersonPhone"
+                            name="applicationForm.emergencyPersonPhone"
                             label="Cep Telefonu"
                             maxLength={11}
-                            value={formik.values.emergencyPersonPhone}
+                            value={formik.values.applicationForm.emergencyPersonPhone}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -872,9 +897,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="email"
-                            name="emergencyPersonEmail"
+                            name="applicationForm.emergencyPersonEmail"
                             label="E-Posta Adresi"
-                            value={formik.values.emergencyPersonEmail}
+                            value={formik.values.applicationForm.emergencyPersonEmail}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -886,9 +911,9 @@ const ApplicationFormPage = () => {
                         >
                           <CFormInput
                             type="text"
-                            name="emergencyPersonDegreeOfProximity"
+                            name="applicationForm.emergencyPersonDegreeOfProximity"
                             label="Yakınlık Derecesi"
-                            value={formik.values.emergencyPersonDegreeOfProximity}
+                            value={formik.values.applicationForm.emergencyPersonDegreeOfProximity}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                           />
@@ -902,8 +927,8 @@ const ApplicationFormPage = () => {
                     >
                       <CButton
                         type="submit"
-                      // href={getPath('forms.applicationFormsTwo', { id: item.id })}
-                      // href={getPath('forms.applicationFormsTwo')}
+                        // href={getPath('forms.applicationFormsTwo', { id: item.id })}
+                        // href={getPath('forms.applicationFormsTwo')}
                       >
                         Devam et
                       </CButton>

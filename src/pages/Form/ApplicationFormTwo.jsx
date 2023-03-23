@@ -1,6 +1,6 @@
 import { CButton, CCard, CCardBody, CContainer, CForm, CRow, CSpinner } from '@coreui/react'
-import { Loading } from '../../components/Loading'
-import LoadingSpinner from '../../components/LoadingSpinner'
+// import { Loading } from '../../components/Loading'
+// import LoadingSpinner from '../../components/LoadingSpinner'
 
 const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
   const submitHandle = (e) => {
@@ -24,7 +24,7 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
           </h4>
           <CCard
             className="mx-auto col-xl-10 shadow"
-          // style={{ height: '100px;', width: '100%' }}
+            // style={{ height: '100px;', width: '100%' }}
           >
             <CCardBody
               className="card-body "
@@ -41,18 +41,24 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                 >
                   <CRow>
                     <div className="form-group">
-                      <label>CV'nizi Yükleyin</label>
+                      <label>CVnizi Yükleyin</label>
                       <input
                         name="basvuruFormu1"
                         className="form-control"
                         type="file"
-                        required
+                        // required
                         onChange={(e) => {
                           onChange((curr) => ({ ...curr, cvFile: e.target.files[0] }))
                         }}
                       />
                     </div>
                   </CRow>
+                  <div
+                    className="form-text"
+                    style={{ color: 'red' }}
+                  >
+                    Zorunlu değildir.
+                  </div>
                 </div>
 
                 <div
@@ -66,19 +72,25 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                         name="basvuruFormu2"
                         className="form-control"
                         type="file"
-                        required
+                        // required
                         onChange={(e) => {
                           onChange((curr) => ({ ...curr, contractFile: e.target.files[0] }))
                         }}
                       />
                     </div>
                     <br />
-                    <div
-                      className="form-text text-center"
+                    {/* <div
+                      className="form-text"
                       style={{ color: 'blue' }}
                     >
-                      Sözleşmeyi indirmek için <a href="/Files/OBM_Sozlesme.pdf" target="_blank">tıklayın</a>
-                    </div>
+                      Sözleşmeyi indirmek için{' '}
+                      <a
+                        href="/Files/OBM_Sozlesme.pdf"
+                        target="_blank"
+                      >
+                        tıklayın
+                      </a>
+                    </div> */}
                   </CRow>
                 </div>
 
@@ -113,11 +125,11 @@ const ApplicationFormTwo = ({ onChange, onSubmit, loading }) => {
                     <a
                       href="https://europa.eu/europass/tr/did-you-set-your-2fa-europass"
                       target={'_blank'}
+                      // rel="noreferrer"
                     >
-                      {' '}
-                      bu bağlantıdan
-                    </a>{' '}
-                    doldurup sistemimize yükleyiniz.
+                      {' ' + 'bu bağlantıdan'}
+                    </a>
+                    {' ' + 'doldurup sistemimize yükleyiniz.'}
                   </p>
                 </div>
 
