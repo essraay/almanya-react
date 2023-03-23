@@ -12,11 +12,7 @@ Yup.setLocale({
   },
   boolean: {
     oneOf: 'Bu alanı işaretlemeniz gerekiyor.',
-  }
+  },
 })
 
 export default Yup
-
-// 
-
-// 

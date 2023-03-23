@@ -1,6 +1,6 @@
 import store from '../store'
 import { setUser } from '../store/authSlice'
-import jsonToFormData from '@ajoelp/json-to-formdata';
+import jsonToFormData from '@ajoelp/json-to-formdata'
 
 function parseData(data) {
   // const formData = new FormData()

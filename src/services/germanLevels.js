@@ -1,4 +1,4 @@
-import {get, post } from "./request"
+import { get } from './request'
 
 export const getAll = () => get(`GermanLanguageLevels/getall`)
-export const getById = (id) => post(`GermanLanguageLevels/getbyid?id=${id}`)
+export const getById = (id) => get(`GermanLanguageLevels/getbyid?id=${id}`)
