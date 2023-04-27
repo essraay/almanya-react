@@ -50,6 +50,7 @@ const ApplicationFormPage = () => {
         germanLevelId: '7',
         drivingLicense: false,
         passport: false,
+        balanceId: '',
         length: '',
         weight: '',
         disabilityStatus: '',
@@ -757,6 +758,48 @@ const ApplicationFormPage = () => {
                           </div>
                         </CRow>
                       </div>
+                    </div>
+                    <div
+                      className="form-block"
+                      style={{ color: '#6D4D4D', margin: '1% 0' }}
+                    >
+                      <CRow>
+                        <div className="form-group col-12">
+                          <div className="row">
+                            <label className="col-sm-4">Almanya denklik durumu*</label>
+                            <div className="col-sm-8">
+                              <CFormCheck
+                                inline
+                                type="radio"
+                                name="applicationForm.balanceId"
+                                value="1"
+                                label="Tam Denklik"
+                                checked={formik.values.applicationForm.balanceId === '1'}
+                                onChange={formik.handleChange}
+                              />
+                              <CFormCheck
+                                inline
+                                type="radio"
+                                name="applicationForm.balanceId"
+                                value="2"
+                                label="Kısmi Denklik"
+                                checked={formik.values.applicationForm.balanceId === '2'}
+                                onChange={formik.handleChange}
+                              />
+                              <CFormCheck
+                                inline
+                                type="radio"
+                                name="applicationForm.balanceId"
+                                value="3"
+                                label="Denklik Yok"
+                                checked={formik.values.applicationForm.balanceId === '3'}
+                                onChange={formik.handleChange}
+                              />
+                            </div>
+                            {errorMessage('balanceId')}
+                          </div>
+                        </div>
+                      </CRow>
                     </div>
                     <div className="form-block">
                       <CRow>

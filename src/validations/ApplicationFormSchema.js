@@ -17,6 +17,7 @@ export const ApplicationFormSchema = Yup.object().shape({
     graduationId: Yup.string().oneOf(['1', '2', '3', '4', '5', '6', '7', '8']).nullable(),
     germanLevelId: Yup.string().oneOf(['1', '2', '3', '4', '5', '6', '7']).nullable(),
     drivingLicense: Yup.bool(),
+    balanceId: Yup.string().oneOf(['1', '2', '3']).required(),
     passport: Yup.bool(),
     length: Yup.string(),
     weight: Yup.string(),

@@ -1,10 +1,10 @@
-import { CButtonGroup, CCard, CCardBody, CContainer, CRow, CTable } from "@coreui/react"
-import { useEffect, useState } from "react"
-import { Link, useSearchParams } from "react-router-dom"
-import LoadingSpinner from "../../components/LoadingSpinner"
-import { ApplicationFormService } from "../../services"
+import { CButtonGroup, CCard, CCardBody, CContainer, CRow, CTable } from '@coreui/react'
+import { useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import { ApplicationFormService } from '../../services'
 import { getPath } from '../../utils'
-import FilterSearchBox from "./components/FilterSearchBox"
+import FilterSearchBox from './components/FilterSearchBox'
 
 const AllApplicationPage = () => {
   const [loading, setLoading] = useState(true)
@@ -16,13 +16,7 @@ const AllApplicationPage = () => {
     return Object.fromEntries(Array.from(searchParams.entries()))
   })
 
-
   const columns = [
-    {
-      key: 'tc',
-      label: 'TC',
-      _props: { scope: 'col' },
-    },
     {
       key: 'name',
       label: 'Adı',
@@ -69,6 +63,11 @@ const AllApplicationPage = () => {
       _props: { scope: 'col' },
     },
     {
+      key: 'balance',
+      label: 'Denklik',
+      _props: { scope: 'col' },
+    },
+    {
       key: 'buttons',
       label: '',
       _props: { scope: 'col' },
@@ -84,16 +83,17 @@ const AllApplicationPage = () => {
     ApplicationFormService.getAll(filter)
       .then((res) => {
         const newItems = res.data.map((item) => ({
-          tc: `${item.tc} `,
+          // tc: `${item.tc} `,
           name: `${item.name} `,
           surname: `${item.surname} `,
-          gender: `${item.gender.name} `,
-          ageRange: `${item.ageRange.range} `,
+          gender: `${item.gender.id == 3 ? ' ' : item.gender.name} `,
+          ageRange: `${item.ageRange.id == 4 ? ' ' : item.ageRange.range} `,
           category: `${item.category.categoryName} `,
-          germanLevel: `${item.germanLevel.level} `,
-          nationality: `${item.nationality.name} `,
+          germanLevel: `${item.germanLevel.id == 7 ? ' ' : item.germanLevel.level} `,
+          nationality: `${item.nationality.id == 4 ? ' ' : item.nationality.name} `,
           provinces: `${item.provinces.name} `,
           phone: `${item.phone} `,
+          balance: `${item?.balance?.name == null ? ' ' : item?.balance?.name} `,
           buttons: (
             <CButtonGroup>
               <div className="d-flex gap-2">
@@ -117,14 +117,17 @@ const AllApplicationPage = () => {
     <>
       <CContainer>
         <CRow>
-          <CCard className='mx-auto my-3 col-xl-12 shadow'>
+          <CCard className="mx-auto my-3 col-xl-12 shadow">
             <CCardBody>
               {!loading ? (
                 <>
-                  <FilterSearchBox onChange={(value) => setFilter(value)} filterValue={filter} />
+                  <FilterSearchBox
+                    onChange={(value) => setFilter(value)}
+                    filterValue={filter}
+                  />
                   <CTable
                     key={items.id}
-                    className='text-center'
+                    className="text-center"
                     columns={columns}
                     items={items}
                     responsive
