@@ -33,7 +33,9 @@ const DetailApplicationPage = () => {
         </CListGroupItem>
         <CListGroupItem>
           <b>Başvurulan bölüm: </b>
-          {items.category.categoryName}
+          {items.category.categoryName == 'Diğer'
+            ? items.categoryName
+            : items.category.categoryName}
         </CListGroupItem>
       </CListGroup>
       <br />

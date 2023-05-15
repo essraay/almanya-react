@@ -11,7 +11,7 @@ import {
   ProvinceService,
 } from '../../../services'
 
-const FilterSearchBox = ({ onChange, filterValue = {} }) => {
+const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
   const [filter, setFilter] = useState(filterValue)
   useEffect(() => onChange?.(filter), [filter])
 
@@ -231,6 +231,17 @@ const FilterSearchBox = ({ onChange, filterValue = {} }) => {
         style={{ placeItems: 'center' }}
       >
         <CButton onClick={() => setFilter({})}>Temizle</CButton>
+      </div>
+      <div
+        className="d-grid"
+        style={{ placeItems: 'center' }}
+      >
+        <CButton
+          style={{ whiteSpace: 'nowrap' }}
+          onClick={onExport}
+        >
+          Dışa Aktar
+        </CButton>
       </div>
     </div>
   )

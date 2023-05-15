@@ -113,6 +113,17 @@ const AllApplicationPage = () => {
       .finally(() => setLoading(false))
   }
 
+  const exportHandle = () => {
+    ApplicationFormService.exportExcel(filter).then((res) => {
+      console.log(res)
+      const linkElement = document.createElement('a')
+      linkElement.href = '/' + res.path
+      linkElement.target = '_blank'
+      linkElement.click()
+      linkElement.remove()
+    })
+  }
+
   return (
     <>
       <CContainer>
@@ -124,6 +135,7 @@ const AllApplicationPage = () => {
                   <FilterSearchBox
                     onChange={(value) => setFilter(value)}
                     filterValue={filter}
+                    onExport={exportHandle}
                   />
                   <CTable
                     key={items.id}

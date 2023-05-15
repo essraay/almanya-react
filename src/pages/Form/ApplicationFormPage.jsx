@@ -66,7 +66,7 @@ const ApplicationFormPage = () => {
     validationSchema: ApplicationFormSchema,
     onSubmit: (values) => {
       // const otherLanguage = values.otherLanguage.length > 0 ? values.otherLanguages : ['14']
-      console.log(values.applicationForm.appSelectedLanguages)
+      console.log(values)
       setInformationFormData({ ...values })
       setState('fileForm')
     },
@@ -113,8 +113,10 @@ const ApplicationFormPage = () => {
     (key) => {
       return (
         <>
-          {formik.touched?.[key] && formik.errors?.[key] && (
-            <div className="text-xs text-center text-danger">{formik.errors?.[key]}</div>
+          {formik.touched?.applicationForm?.[key] && formik.errors?.applicationForm?.[key] && (
+            <div className="text-xs text-center text-danger">
+              {formik.errors?.applicationForm?.[key]}
+            </div>
           )}
         </>
       )
@@ -169,6 +171,8 @@ const ApplicationFormPage = () => {
     )
   }, [selected])
 
+  const hasApplicationField = useMemo(() => categoryId != '37', [categoryId])
+
   if (state === 'fileForm')
     return (
       <>
@@ -212,6 +216,26 @@ const ApplicationFormPage = () => {
                     onSubmit={formik.handleSubmit}
                     ref={formRef}
                   >
+                    {!hasApplicationField && (
+                      <CRow>
+                        <div
+                          className="form-group col-md-6"
+                          style={{ color: '#6D4D4D', margin: '1% 0' }}
+                        >
+                          <CFormInput
+                            type="text"
+                            name="applicationForm.categoryName"
+                            label="Başvurduğunun alanın adını giriniz*"
+                            value={formik.values.applicationForm.categoryName || ''}
+                            onChange={(e) =>
+                              formik.setFieldValue('applicationForm.categoryName', e.target.value)
+                            }
+                            onBlur={formik.handleBlur}
+                          />
+                          {errorMessage('categoryName')}
+                        </div>
+                      </CRow>
+                    )}
                     <CRow>
                       <div className="form-group col-md-6">
                         <div className="form-block-title">
