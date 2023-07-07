@@ -25,17 +25,18 @@ const DetailApplicationPage = () => {
   const userArea = items && (
     <>
       <CListGroup>
+        <CListGroupItem>
+          <b>Başvuru Tarihi : {dateFormat(items.createdAt)}</b>
+        </CListGroupItem>
+        <br />
         <CListGroupItem
           disabled
           style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}
         >
-          <b>Başvurulan Bölüm</b>
+          <b>Başvurulan Sektör / Meslek</b>
         </CListGroupItem>
         <CListGroupItem>
-          <b>Başvurulan bölüm: </b>
-          {items.category.categoryName == 'Diğer'
-            ? items.categoryName
-            : items.category.categoryName}
+          {items.subCategory.name} / {items.category.categoryName}
         </CListGroupItem>
       </CListGroup>
       <br />
@@ -48,35 +49,27 @@ const DetailApplicationPage = () => {
         </CListGroupItem>
         <CListGroupItem>
           <b>Adı: </b>
-          {items.name}
+          {items?.name}
         </CListGroupItem>
         <CListGroupItem>
           <b>Soyadı: </b>
-          {items.surname}
-        </CListGroupItem>
-        <CListGroupItem>
-          <b>TC : </b>
-          {items.tc}
+          {items?.surname}
         </CListGroupItem>
         <CListGroupItem>
           <b>Doğum Yeri : </b>
-          {items.birthPlace}
+          {items?.birthPlace}
         </CListGroupItem>
         <CListGroupItem>
           <b>Doğum Tarihi: </b>
-          {dateFormat(items.birthday)}
-        </CListGroupItem>
-        <CListGroupItem>
-          <b>Adres: </b>
-          {items.adress}
+          {dateFormat(items?.birthday)}
         </CListGroupItem>
         <CListGroupItem>
           <b>Telefon : </b>
-          {items.phone}
+          {items?.phone}
         </CListGroupItem>
         <CListGroupItem>
           <b>Email : </b>
-          {items.email}
+          {items?.email}
         </CListGroupItem>
         <CListGroupItem>
           <b>İl : </b>
@@ -108,7 +101,7 @@ const DetailApplicationPage = () => {
           {items?.appSelectedLanguages?.map((x) => x.otherLanguage.name).join(', ')}
         </CListGroupItem>
         <CListGroupItem>
-          <b>Ehliyet : </b> {items.drivingLicense ? 'Var' : 'Yok'}
+          <b>Ehliyet : </b> {items?.drivingLicense ? 'Var' : 'Yok'}
         </CListGroupItem>
         <CListGroupItem>
           <b>Pasaport : </b>
@@ -118,14 +111,25 @@ const DetailApplicationPage = () => {
           <b>Tam Denklik : </b> {items?.balance?.name}
         </CListGroupItem>
         <CListGroupItem>
-          <b>Ehliyet : </b> {items.drivingLicense ? 'Var' : 'Yok'}
+          <b>Ehliyet : </b> {items?.drivingLicense ? 'Var' : 'Yok'}
         </CListGroupItem>
         <CListGroupItem>
-          <b>Boy : </b> {items.length}
+          <b>Boy : </b> {items?.length}
         </CListGroupItem>
         <CListGroupItem>
-          <b>Kilo : </b> {items.weight}
+          <b>Kilo : </b> {items?.weight}
         </CListGroupItem>
+      </CListGroup>
+
+      <br />
+      <CListGroup>
+        <CListGroupItem
+          disabled
+          style={{ backgroundColor: '#B1DDFF', color: '#425F8A' }}
+        >
+          <b>Özel Not </b>
+        </CListGroupItem>
+        <CListGroupItem>{items?.note}</CListGroupItem>
       </CListGroup>
 
       <br />

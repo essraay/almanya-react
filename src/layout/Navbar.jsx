@@ -5,7 +5,7 @@ import {
   CNavbarNav,
   CNavbarToggler,
   CNavItem,
-  CNavLink
+  CNavLink,
 } from '@coreui/react'
 import React from 'react'
 import { useState } from 'react'
@@ -22,12 +22,10 @@ const Navbar = () => {
         expand="lg"
         // colorScheme="light"
         style={{ backgroundColor: 'white' }}
-      // className="bg-light"
+        // className="bg-light"
       >
         <CContainer>
-          <CNavbarToggler
-            onClick={() => setNavbarVisibility(x => !x)}
-          />
+          <CNavbarToggler onClick={() => setNavbarVisibility((x) => !x)} />
           <CCollapse
             visible={navbarVisibility}
             className="navbar-collapse justify-content-center"
@@ -40,33 +38,33 @@ const Navbar = () => {
               </div>
             </a>
 
-            <CNavbarNav className='gap-5'>
-              {user && <><CNavItem>
-                <CNavLink className='col-md-4' href={getPath('homepage')} active>
-                  <p
-                    className='fw-bolder'
-                    style={{ color: '#13004D' }}
-                  >
-                    Anasayfa
-                  </p>
-                </CNavLink>
-              </CNavItem>
-                <CNavItem className='col-md-4'>
-                  <CNavLink href={getPath('applications')}>
-                    <p
-                      className='fw-bolder'
+            <CNavbarNav className="gap-5">
+              {user && (
+                <>
+                  <CNavItem>
+                    <CNavLink
+                      className="col-md-4"
+                      href={getPath('homepage')}
+                      active
                     >
-                      Başvurular
-                    </p>
-                  </CNavLink>
-                </CNavItem></>}
-              <CNavItem className='col-md-4'>
-                <CNavLink href={getPath('forms')}>
-                  <p
-                    className='fw-bolder'
-                  >
-                    Formlar
-                  </p>
+                      <p
+                        className="fw-bolder"
+                        style={{ color: '#13004D' }}
+                      >
+                        Anasayfa
+                      </p>
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem className="col-md-4">
+                    <CNavLink href={getPath('applications')}>
+                      <p className="fw-bolder">Başvurular</p>
+                    </CNavLink>
+                  </CNavItem>
+                </>
+              )}
+              <CNavItem className="col-md-4">
+                <CNavLink href={getPath('applicationForms')}>
+                  <p className="fw-bolder">Başvuru Formu</p>
                 </CNavLink>
               </CNavItem>
             </CNavbarNav>

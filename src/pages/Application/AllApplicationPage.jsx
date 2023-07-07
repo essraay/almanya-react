@@ -1,9 +1,21 @@
-import { CButtonGroup, CCard, CCardBody, CContainer, CRow, CTable } from '@coreui/react'
-import { useEffect, useState } from 'react'
+import {
+  CButton,
+  CButtonGroup,
+  CCard,
+  CCardBody,
+  CContainer,
+  CModal,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+  CRow,
+  CTable,
+} from '@coreui/react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { ApplicationFormService } from '../../services'
-import { getPath } from '../../utils'
+import { dateFormat, getPath } from '../../utils'
 import FilterSearchBox from './components/FilterSearchBox'
 
 const AllApplicationPage = () => {
@@ -38,8 +50,13 @@ const AllApplicationPage = () => {
       _props: { scope: 'col' },
     },
     {
+      key: 'subCategory',
+      label: 'Sektör',
+      _props: { scope: 'col' },
+    },
+    {
       key: 'category',
-      label: 'Başvurulan Meslek',
+      label: 'Meslek',
       _props: { scope: 'col' },
     },
     {
@@ -68,6 +85,11 @@ const AllApplicationPage = () => {
       _props: { scope: 'col' },
     },
     {
+      key: 'createdAt',
+      label: 'Başvuru Zamanı',
+      _props: { scope: 'col' },
+    },
+    {
       key: 'buttons',
       label: '',
       _props: { scope: 'col' },
@@ -83,17 +105,18 @@ const AllApplicationPage = () => {
     ApplicationFormService.getAll(filter)
       .then((res) => {
         const newItems = res.data.map((item) => ({
-          // tc: `${item.tc} `,
           name: `${item.name} `,
           surname: `${item.surname} `,
           gender: `${item.gender.id == 3 ? ' ' : item.gender.name} `,
           ageRange: `${item.ageRange.id == 4 ? ' ' : item.ageRange.range} `,
+          subCategory: `${item.subCategory.name} `,
           category: `${item.category.categoryName} `,
           germanLevel: `${item.germanLevel.id == 7 ? ' ' : item.germanLevel.level} `,
           nationality: `${item.nationality.id == 4 ? ' ' : item.nationality.name} `,
           provinces: `${item.provinces.name} `,
           phone: `${item.phone} `,
           balance: `${item?.balance?.name == null ? ' ' : item?.balance?.name} `,
+          createdAt: `${dateFormat(item?.createdAt)} `,
           buttons: (
             <CButtonGroup>
               <div className="d-flex gap-2">
@@ -103,6 +126,13 @@ const AllApplicationPage = () => {
                 >
                   Detay
                 </Link>
+                <CButton
+                  className="btn btn-danger btn-sm"
+                  style={{ margin: '1% 0' }}
+                  onClick={() => handleShowModal(item?.id)}
+                >
+                  Sil
+                </CButton>
               </div>
             </CButtonGroup>
           ),
@@ -124,6 +154,29 @@ const AllApplicationPage = () => {
     })
   }
 
+  const [visible, setVisible] = useState(false)
+
+  const [selectedItemId, setSelectedItemId] = useState(false)
+  const selectedItem = useMemo(() => {
+    if (selectedItemId !== false) return items.find((x) => x.id == selectedItemId)
+
+    return false
+  }, [items, selectedItemId])
+
+  const handleShowModal = (id) => {
+    setSelectedItemId(id)
+    setVisible(true)
+  }
+
+  const handleRemove = () => {
+    ApplicationFormService.disableApplication(selectedItemId)
+      .then(() => {
+        setVisible(false)
+        fetchData()
+      })
+      .catch(() => {})
+  }
+
   return (
     <>
       <CContainer>
@@ -137,6 +190,7 @@ const AllApplicationPage = () => {
                     filterValue={filter}
                     onExport={exportHandle}
                   />
+                  <hr />
                   <CTable
                     key={items.id}
                     className="text-center"
@@ -152,6 +206,29 @@ const AllApplicationPage = () => {
           </CCard>
         </CRow>
       </CContainer>
+      <CModal
+        scrollable
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
+        <CModalHeader>
+          <CModalTitle className="text-black">Silmeyi Onaylıyor musunuz?</CModalTitle>
+        </CModalHeader>
+        <CModalFooter>
+          <CButton
+            color="secondary"
+            onClick={() => setVisible(false)}
+          >
+            Kapat
+          </CButton>
+          <CButton
+            color="secondary"
+            onClick={handleRemove}
+          >
+            Sil
+          </CButton>
+        </CModalFooter>
+      </CModal>
     </>
   )
 }

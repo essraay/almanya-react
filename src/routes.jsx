@@ -14,9 +14,9 @@ const AllApplicationPage = lazy(() => import('./pages/Application/AllApplication
 const DetailApplicationPage = lazy(() => import('./pages/Application/DetailApplicationPage'))
 const ListApplicationPage = lazy(() => import('./pages/Application/ListApplicationPage'))
 
-const FormPage = lazy(() => import('./pages/Form/index'))
+// const FormPage = lazy(() => import('./pages/Form/index'))
 const ApplicationFormPage = lazy(() => import('./pages/Form/ApplicationFormPage'))
-const ApplicationFormTwo = lazy(() => import('./pages/Form/ApplicationFormTwo'))
+// const ApplicationFormTwo = lazy(() => import('./pages/Form/ApplicationFormTwo'))
 // const ApplicationFormPage = lazy(() => import('./pages/Form/ApplicationFormPage'))
 // const ApplicationFormPage = lazy(() => import('./pages/Form/ApplicationFormPage'))
 
@@ -94,30 +94,29 @@ const routes = [
           },
         ],
       },
+      // {
+      //   path: 'forms',
+      //   name: 'forms',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <FormPage />,
+      //       lazy: true,
+      //     },
+      //     {
+      //       // path: 'applicationForms/:id',
+      //       path: 'applicationForms',
+      //       name: 'applicationForms',
+      //       element: <ApplicationFormPage />,
+      //       lazy: true,
+      //     },
+      //   ],
+      // },
       {
-        path: 'forms',
-        name: 'forms',
-        children: [
-          {
-            index: true,
-            element: <FormPage />,
-            lazy: true,
-          },
-          {
-            path: 'applicationForms/:id',
-            // path: 'applicationForms',
-            name: 'applicationForms',
-            element: <ApplicationFormPage />,
-            lazy: true,
-          },
-          {
-            path: 'applicationFormsTwo',
-            // path: 'applicationForms',
-            name: 'applicationFormsTwo',
-            element: <ApplicationFormTwo />,
-            lazy: true,
-          },
-        ],
+        path: 'applicationForms',
+        name: 'applicationForms',
+        element: <ApplicationFormPage />,
+        lazy: true,
       },
     ],
   },
@@ -128,8 +127,6 @@ const routes = [
     lazy: true,
   },
 ]
-
-
 
 const mapRoute = (list) => {
   return list.map((item) => {
@@ -158,6 +155,5 @@ const mapRoute = (list) => {
 }
 
 const finalRoutes = mapRoute(routes)
-
 
 export default finalRoutes

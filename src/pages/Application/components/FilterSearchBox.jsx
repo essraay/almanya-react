@@ -9,6 +9,7 @@ import {
   GermanLanguageLevelService,
   NationalitieService,
   ProvinceService,
+  SubCategoryService,
 } from '../../../services'
 
 const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
@@ -28,6 +29,9 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
     GermanLanguageLevelService.getAll().then((response) => {
       setGermanLevelList(response.data)
     })
+    SubCategoryService.getAll().then((response) => {
+      setSubCategoryList(response.data)
+    })
     CategoryService.getAll().then((response) => {
       setCategoryList(response.data)
     })
@@ -43,15 +47,16 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
   const [nationalityList, setNationalityList] = useState([])
   const [ageRangeList, setAgeRangeList] = useState([])
   const [germanLevelList, setGermanLevelList] = useState([])
+  const [subCategoryList, setSubCategoryList] = useState([])
   const [categoryList, setCategoryList] = useState([])
   const [provinceList, setProvinceList] = useState([])
   const [balanceList, setBalanceList] = useState([])
 
   return (
     <div className="d-flex flex-row gap-1">
-      <CRow className="flex-grow-1">
+      <CRow>
         <div
-          className="form-group col-md-2"
+          className="form-group col-md-3"
           style={{ color: '#6D4D4D', margin: '1% 0' }}
         >
           <CFormSelect
@@ -76,7 +81,7 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
           />
         </div>
         <div
-          className="form-group col-md-2"
+          className="form-group col-md-3"
           style={{ margin: '1% 0' }}
         >
           <CFormSelect
@@ -101,7 +106,32 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
           />
         </div>
         <div
-          className="form-group col-md-2"
+          className="form-group col-md-3"
+          style={{ margin: '1% 0' }}
+        >
+          <CFormSelect
+            style={{ borderColor: 'blue' }}
+            type="text"
+            name="subCategory"
+            onChange={(e) => {
+              setFilter((x) => ({ ...x, subCategory: e.target.value }))
+            }}
+            value={filter?.subCategory || '-1'}
+            options={[
+              {
+                label: 'Kategori',
+                value: '-1',
+                disabled: true,
+              },
+              ...subCategoryList.map((subCategory) => ({
+                label: subCategory.name,
+                value: subCategory.id,
+              })),
+            ]}
+          />
+        </div>
+        <div
+          className="form-group col-md-3"
           style={{ margin: '1% 0' }}
         >
           <CFormSelect
@@ -114,7 +144,7 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
             value={filter?.category || '-1'}
             options={[
               {
-                label: 'Başvurulan Meslek',
+                label: 'Meslek',
                 value: '-1',
                 disabled: true,
               },
@@ -126,7 +156,7 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
           />
         </div>
         <div
-          className="form-group col-md-2"
+          className="form-group col-md-3"
           style={{ margin: '1% 0' }}
         >
           <CFormSelect
@@ -151,7 +181,7 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
           />
         </div>
         <div
-          className="form-group col-md-1"
+          className="form-group col-md-3"
           style={{ margin: '1% 0' }}
         >
           <CFormSelect
@@ -176,7 +206,7 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
           />
         </div>
         <div
-          className="form-group col-md-1"
+          className="form-group col-md-3"
           style={{ margin: '1% 0' }}
         >
           <CFormSelect
@@ -201,7 +231,7 @@ const FilterSearchBox = ({ onChange, filterValue = {}, onExport }) => {
           />
         </div>
         <div
-          className="form-group col-md-2"
+          className="form-group col-md-3"
           style={{ margin: '1% 0' }}
         >
           <CFormSelect

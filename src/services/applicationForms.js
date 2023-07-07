@@ -1,4 +1,4 @@
-import { get, post } from './request'
+import { get, post, postJSON } from './request'
 
 export const getAll = (filter) => {
   let path = 'ApplicationForms/getall'
@@ -30,3 +30,4 @@ export const exportExcel = (filter) => {
 
 export const getById = (id) => get(`ApplicationForms/getbyid?id=${id}`)
 export const createApplication = (data) => post('ApplicationForms/add', data)
+export const disableApplication = (id) => postJSON('ApplicationForms/disable', { Id: id })

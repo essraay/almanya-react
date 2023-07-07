@@ -8,20 +8,18 @@ import {
   CButton,
   CFormCheck,
   CForm,
+  CSpinner,
+  CFormTextarea,
 } from '@coreui/react'
 import { useFormik } from 'formik'
 import { useCallback } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { MultiSelect } from 'react-multi-select-component'
-import { useParams } from 'react-router-dom'
-import { ApplicationFormService, ProvinceService } from '../../services'
+import { ApplicationFormService, ProvinceService, SubCategoryService } from '../../services'
 import { ApplicationFormSchema } from '../../validations/ApplicationFormSchema'
-import ApplicationFormTwo from './ApplicationFormTwo'
 import SuccessModal from './SuccessModal'
 
 const ApplicationFormPage = () => {
-  const { id: categoryId } = useParams()
-
   const [informationFormData, setInformationFormData] = useState(false)
   const [fileFormData, setFileFormData] = useState({
     cvFile: undefined,
@@ -40,6 +38,8 @@ const ApplicationFormPage = () => {
         birthPlace: '',
         provincesId: '-1',
         districtId: '-1',
+        categoryId: '-1',
+        subCategoryId: '-1',
         nationalityId: '4',
         dualNationality: false,
         genderId: '3',
@@ -60,54 +60,48 @@ const ApplicationFormPage = () => {
         emergencyPersonEmail: '',
         emergencyPersonDegreeOfProximity: '',
         appSelectedLanguages: [],
-        categoryId,
+        isActive: true,
+        note: '',
       },
     },
     validationSchema: ApplicationFormSchema,
     onSubmit: (values) => {
       // const otherLanguage = values.otherLanguage.length > 0 ? values.otherLanguages : ['14']
-      console.log(values)
-      setInformationFormData({ ...values })
-      setState('fileForm')
+      setInformationFormData(values)
+      // setState('fileForm')
+
+      setLoading(true)
+      ApplicationFormService.createApplication({
+        ...values,
+        ...fileFormData,
+      })
+        .then((response) => {
+          console.log('response :>> ', response)
+
+          setProvinceId(1)
+          setSubCategoryId(1)
+          setFileFormData({
+            cvFile: undefined,
+            contractFile: undefined,
+            otherFile: undefined,
+          })
+          setInformationFormData(false)
+          formik.resetForm()
+
+          setSuccessModalVisibility(true)
+
+          formRef.current.querySelector('input').focus()
+        })
+        .catch((error) => {
+          console.error(error)
+          formRef.current.querySelector('input').select()
+          formRef.current.querySelector('input').focus()
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     },
   })
-
-  const submit = () => {
-    setLoading(true)
-    console.log('fileFormData :>> ', fileFormData)
-    ApplicationFormService.createApplication({
-      ...informationFormData,
-      ...fileFormData,
-    })
-      .then((response) => {
-        console.log('response :>> ', response)
-
-        setState('informationForm')
-
-        setProvinceId(1)
-        setFileFormData({
-          cvFile: undefined,
-          contractFile: undefined,
-          otherFile: undefined,
-        })
-        setInformationFormData(false)
-        formik.resetForm()
-
-        setSuccessModalVisibility(true)
-
-        formRef.current.querySelector('input').focus()
-      })
-      .catch((error) => {
-        console.error(error)
-        formRef.current.querySelector('input').select()
-        formRef.current.querySelector('input').focus()
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }
-
-  // console.log(formik.errors)
 
   const errorMessage = useCallback(
     (key) => {
@@ -126,6 +120,8 @@ const ApplicationFormPage = () => {
 
   const formRef = useRef()
   const [loading, setLoading] = useState(false)
+
+  //Province/District
   const [provinceList, setProvinceList] = useState([])
   // eslint-disable-next-line no-unused-vars
   const [provinceId, setProvinceId] = useState(1)
@@ -135,14 +131,33 @@ const ApplicationFormPage = () => {
       : undefined
   }, [provinceList, formik.values.applicationForm.provincesId])
 
-  const [state, setState] = useState('informationForm') // informationForm, fileForm
-
   useEffect(() => {
     ProvinceService.getAll().then((response) => {
       setProvinceList(response.data)
     })
     formRef.current.querySelector('input').focus()
   }, [])
+
+  //SubCategory/Category
+  const [subCategoryList, setSubCategoryList] = useState([])
+  // eslint-disable-next-line no-unused-vars
+  const [subCategoryId, setSubCategoryId] = useState(1)
+  const activeSubCategory = useMemo(() => {
+    return formik.values.applicationForm.subCategoryId > 0 && subCategoryList.length > 0
+      ? subCategoryList.find(
+          (subCategory) => subCategory.id == formik.values.applicationForm.subCategoryId
+        )
+      : undefined
+  }, [subCategoryList, formik.values.applicationForm.subCategoryId])
+
+  useEffect(() => {
+    SubCategoryService.getAll().then((response) => {
+      setSubCategoryList(response.data)
+    })
+    formRef.current.querySelector('input').focus()
+  }, [])
+
+  // const [state, setState] = useState('informationForm') // informationForm, fileForm
 
   const options = [
     { label: 'Almanca', value: '1' },
@@ -171,20 +186,6 @@ const ApplicationFormPage = () => {
     )
   }, [selected])
 
-  const hasApplicationField = useMemo(() => categoryId != '37', [categoryId])
-
-  if (state === 'fileForm')
-    return (
-      <>
-        {/* <CButton onClick={() => { setState('informationForm') }}>Degiştir</CButton> */}
-        <ApplicationFormTwo
-          onChange={setFileFormData}
-          onSubmit={submit}
-          loading={loading}
-        />
-      </>
-    )
-
   return (
     <>
       <SuccessModal
@@ -198,16 +199,16 @@ const ApplicationFormPage = () => {
             <div>Yükleniyor..</div>
           ) : (
             <>
-              <h4
-                className="text-center my-3 p-3 col-xl-10 rounded mx-auto shadow"
-                style={{ color: '#500000', backgroundColor: 'white' }}
-              >
-                Başvuru Formu
-              </h4>
               <CCard
-                className="mx-auto col-xl-10 shadow"
-                // style={{ height: '100px;', width: '100%' }}
+                className="mx-auto col-xl-10 shadow p-3"
+                style={{ margin: '1% 0' }}
               >
+                <h4
+                  className="text-center my-3 p-2 col-xl-10 mx-auto"
+                  style={{ color: '#500000', backgroundColor: 'white' }}
+                >
+                  Başvuru Formu
+                </h4>
                 <CCardBody
                   className="card-body"
                   style={{ margin: '1% 0', color: '#425F8A' }}
@@ -216,48 +217,12 @@ const ApplicationFormPage = () => {
                     onSubmit={formik.handleSubmit}
                     ref={formRef}
                   >
-                    {!hasApplicationField && (
-                      <CRow>
-                        <div
-                          className="form-group col-md-6"
-                          style={{ color: '#6D4D4D', margin: '1% 0' }}
-                        >
-                          <CFormInput
-                            type="text"
-                            name="applicationForm.categoryName"
-                            label="Başvurduğunun alanın adını giriniz*"
-                            value={formik.values.applicationForm.categoryName || ''}
-                            onChange={(e) =>
-                              formik.setFieldValue('applicationForm.categoryName', e.target.value)
-                            }
-                            onBlur={formik.handleBlur}
-                          />
-                          {errorMessage('categoryName')}
-                        </div>
-                      </CRow>
-                    )}
                     <CRow>
                       <div className="form-group col-md-6">
                         <div className="form-block-title">
                           <h5 style={{ color: '#5C4040' }}>Kişisel Bilgiler</h5>
                         </div>
                       </div>
-                      {/* <div
-                        className="form-group col-md-6"
-                        style={{ color: '#6D4D4D' }}
-                      >
-                        <CFormInput
-                          type="text"
-                          name="tc"
-                          label="TC"
-                          maxLength={11}
-                          feedback={formik.errors.tc}
-                          value={formik.values.tc}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                        />
-                        {errorMessage('tc')}
-                      </div> */}
                     </CRow>
                     <CRow>
                       <div
@@ -319,26 +284,6 @@ const ApplicationFormPage = () => {
                         {errorMessage('birthPlace')}
                       </div>
                     </CRow>
-                    {/* <div
-                      className="form-block"
-                      style={{ color: '#6D4D4D', margin: '1% 0' }}
-                    >
-                      <CRow>
-                        <div className="form-group col-12">
-                          <label htmlFor="adres">Adres</label>
-                          <textarea
-                            name="adress"
-                            cols="30"
-                            rows="5"
-                            className="form-control"
-                            value={formik.values.adress}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                          ></textarea>
-                          {errorMessage('adress')}
-                        </div>
-                      </CRow>
-                    </div> */}
                     <div className="form-block">
                       <CRow>
                         <div
@@ -388,9 +333,85 @@ const ApplicationFormPage = () => {
                             ]}
                           />
                         </div>
-                        {errorMessage('districtId')}
                       </CRow>
                     </div>
+                    <div className="form-block">
+                      <CRow>
+                        <div
+                          className="form-group col-md-6"
+                          style={{ color: '#6D4D4D', margin: '1% 0' }}
+                        >
+                          <CFormSelect
+                            label="Sektör*"
+                            aria-label="Default select example"
+                            name="applicationForm.subCategoryId"
+                            onChange={formik.handleChange}
+                            value={formik.values.applicationForm.subCategoryId}
+                            options={[
+                              {
+                                label: 'Seçiniz',
+                                value: '-1',
+                                disabled: true,
+                              },
+                              ...subCategoryList.map((subCategory) => ({
+                                label: subCategory.name,
+                                value: subCategory.id,
+                              })),
+                            ]}
+                          />
+                        </div>
+                        {errorMessage('applicationForm.subCategoryId')}
+                        <div
+                          className="form-group col-md-6"
+                          style={{ color: '#6D4D4D', margin: '1% 0' }}
+                        >
+                          <CFormSelect
+                            label="Meslek*"
+                            aria-label="Default select example"
+                            name="applicationForm.categoryId"
+                            onChange={formik.handleChange}
+                            value={formik.values.applicationForm.categoryId}
+                            options={[
+                              {
+                                label: 'Seçiniz',
+                                value: '-1',
+                                disabled: true,
+                              },
+                              ...(activeSubCategory?.category?.map((category) => ({
+                                label: category.categoryName,
+                                value: category.id,
+                              })) || []),
+                            ]}
+                          />
+                        </div>
+                        {errorMessage('applicationForm.categoryId')}
+                      </CRow>
+                    </div>
+                    <CCard
+                      className="p-2"
+                      style={{ backgroundColor: '#F9F9F9' }}
+                    >
+                      <div
+                        className="alert alert-warning"
+                        role="alert"
+                      >
+                        Mesleğinizi yukarıda bulamadıysanız iki seçenekte de `manuel` işaretleyip
+                        mesleğinizi lütfen bu alana yazınız.
+                      </div>
+                      <div
+                        className="form-group col-md-12"
+                        style={{ color: '#6D4D4D', margin: '1% 0' }}
+                      >
+                        <CFormInput
+                          type="text"
+                          name="applicationForm.categoryName"
+                          label="Sektör/Meslek"
+                          value={formik.values.applicationForm.categoryName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                        />
+                      </div>
+                    </CCard>
                     <div
                       className="form-block"
                       style={{ color: '#6D4D4D', margin: '1% 0' }}
@@ -989,15 +1010,127 @@ const ApplicationFormPage = () => {
                       </CRow>
                     </div>
                     <div
+                      className="form-group col-md-6"
+                      style={{ margin: '5% 0' }}
+                    >
+                      <div className="form-block-title">
+                        <h5 style={{ color: '#6D4D4D', margin: '1% 0' }}>Özel Not Alanı</h5>
+                      </div>
+                    </div>
+                    <div className="form-block">
+                      <CRow>
+                        <div
+                          className="form-group col-md-12"
+                          style={{ color: '#6D4D4D', margin: '1% 0' }}
+                        >
+                          <CFormTextarea
+                            id="exampleFormControlTextarea1"
+                            name="applicationForm.note"
+                            label="Özel not eklemek için buraya yazınız."
+                            rows={3}
+                            maxLength={200}
+                            text="200 karakter girebilirsiniz."
+                            value={formik.values.applicationForm.note}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          ></CFormTextarea>
+                        </div>
+                      </CRow>
+                    </div>
+                    <div
+                      className="form-inline"
+                      style={{ color: '#6D4D4D', margin: '2% 0' }}
+                    >
+                      <CRow>
+                        <div className="form-group">
+                          <label>CVnizi Yükleyin</label>
+                          <input
+                            name="basvuruFormu1"
+                            className="form-control"
+                            type="file"
+                            // required
+                            onChange={(e) => {
+                              setFileFormData((curr) => ({ ...curr, cvFile: e.target.files[0] }))
+                            }}
+                          />
+                        </div>
+                      </CRow>
+                      <div
+                        className="form-text"
+                        style={{ color: 'red' }}
+                      >
+                        (Zorunlu değildir.)
+                      </div>
+                    </div>
+                    <div
+                      className="form-inline"
+                      style={{ color: '#6D4D4D', margin: '2% 0' }}
+                    >
+                      <CRow>
+                        <div className="form-group">
+                          <label>Sözleşmeyi yükleyin</label>
+                          <input
+                            name="basvuruFormu2"
+                            className="form-control"
+                            type="file"
+                            // required
+                            onChange={(e) => {
+                              setFileFormData((curr) => ({
+                                ...curr,
+                                contractFile: e.target.files[0],
+                              }))
+                            }}
+                          />
+                        </div>
+                      </CRow>
+                    </div>
+                    <div
+                      className="form-inline"
+                      style={{ color: '#6D4D4D', margin: '2% 0' }}
+                    >
+                      <CRow>
+                        <div className="form-group">
+                          <label>Belgeyi Yükleyin</label>
+                          <input
+                            name="basvuruFormu3"
+                            className="form-control"
+                            type="file"
+                            onChange={(e) => {
+                              setFileFormData((curr) => ({ ...curr, otherFile: e.target.files[0] }))
+                            }}
+                          />
+                        </div>
+                      </CRow>
+                    </div>
+                    {/* <div
                       className="d-flex justify-content-center"
                       style={{ margin: '3% 0' }}
                     >
                       <CButton
                         type="submit"
-                        // href={getPath('forms.applicationFormsTwo', { id: item.id })}
-                        // href={getPath('forms.applicationFormsTwo')}
+                        href={getPath('forms.applicationFormsTwo', { id: item.id })}
+                        href={getPath('forms.applicationFormsTwo')}
                       >
                         Devam et
+                      </CButton>
+                    </div> */}
+
+                    <div
+                      className="d-flex justify-content-center"
+                      style={{ margin: '3% 0' }}
+                    >
+                      <CButton
+                        type="submit"
+                        disabled={loading}
+                        className="d-flex align-items-center"
+                      >
+                        {loading && (
+                          <CSpinner
+                            size="sm"
+                            className="me-3"
+                          />
+                        )}
+                        Tamamla
                       </CButton>
                     </div>
                   </CForm>

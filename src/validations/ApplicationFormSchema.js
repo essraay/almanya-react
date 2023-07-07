@@ -29,9 +29,8 @@ export const ApplicationFormSchema = Yup.object().shape({
     emergencyPersonDegreeOfProximity: Yup.string(),
     appSelectedLanguages: Yup.array().nullable(),
     categoryId: Yup.string().required(),
-    categoryName: Yup.string().when('categoryId', {
-      is: '37',
-      then: Yup.string().required('Başvurduğunun alanın adını giriniz'),
-    }),
+    subCategoryId: Yup.string().required(),
+    categoryName: Yup.string().nullable(),
+    note: Yup.string(),
   }),
 })

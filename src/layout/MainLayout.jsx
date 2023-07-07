@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom'
-import { useAppSelector } from '../store'
 import Footer from './Footer'
 import Header from './Header'
 import Navbar from './Navbar'
@@ -7,7 +6,10 @@ import Navbar from './Navbar'
 const MainLayout = () => {
   return (
     <>
-      <div className="d-flex flex-column min-vh-100" style={{ backgroundColor: '#DDDDDD' }}>
+      <div
+        className="d-flex flex-column min-vh-100"
+        style={{ backgroundColor: '#DDDDDD' }}
+      >
         <Header />
         <div className="flex flex-grow-1">
           <div className="flex-shrink-0">
